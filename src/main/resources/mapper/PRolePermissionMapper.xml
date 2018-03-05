@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ace.smart.mapper.PRolePermissionMapper" >
+
+    <resultMap id="BaseResultMap" type="com.ace.smart.entity.PRolePermission" >
+        <result column="rid" property="rid" jdbcType="BIGINT" />
+        <result column="pid" property="pid" jdbcType="BIGINT" />
+    </resultMap>
+
+    <select id="selectRolePperm" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select * from p_role_permission where rid = #{value};
+    </select>
+
+
+    <insert id="insert" parameterType="com.ace.smart.entity.PRolePermission" >
+        insert into p_role_permission (rid, pid)
+        values (#{rid,jdbcType=BIGINT}, #{pid,jdbcType=BIGINT})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.ace.smart.entity.PRolePermission" >
+        insert into p_role_permission
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="rid != null" >
+                rid,
+            </if>
+            <if test="pid != null" >
+                pid,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="rid != null" >
+                #{rid,jdbcType=BIGINT},
+            </if>
+            <if test="pid != null" >
+                #{pid,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="delete" parameterType="java.lang.Long">
+        delete FROM p_role_permission where rid = #{value}
+    </delete>
+</mapper>

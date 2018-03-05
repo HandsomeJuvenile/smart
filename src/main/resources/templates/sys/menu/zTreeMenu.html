@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8"/>
+    <title>菜单选择</title>
+    <link rel="stylesheet" th:href="@{/zTree/css/zTreeStyle/zTreeStyle.css}" type="text/css"/>
+    <script type="text/javascript" th:src="@{/zTree/js/jquery-1.4.4.min.js}"></script>
+    <script type="text/javascript" th:src="@{/zTree/js/jquery.ztree.core.js}"></script>
+    <script type="text/javascript" th:src="@{/zTree/js/jquery.ztree.excheck.js}"></script>
+
+</head>
+<body>
+<div>
+    <ul id="treeDemo" class="ztree"></ul>
+</div>
+
+
+<SCRIPT LANGUAGE="JavaScript">
+    var zTreeObj;
+    var setting = {
+        check: {
+            enable: true
+        }
+        ,data: {
+            simpleData: {
+                enable: false, //设置是否启用简单数据格式（zTree支持标准数据格式跟简单数据格式，上面例子中是标准数据格式）
+                idKey: "menuId",  //设置启用简单数据格式时id对应的属性名称
+                pidKey: "parentIds" //设置启用简单数据格式时parentId对应的属性名称,ztree根据id及pid层级关系构建树结构
+            }
+        }
+        ,callback: {
+            onClick: zTreeOnClick
+        }
+    };  // zTree 的参数配置，后面详解
+    function zTreeOnClick(event, treeId, treeNode) {
+        alert(treeNode.menuId + ", " + treeNode.name);
+    };
+
+    function getCheck() {
+        var treeObj=$.fn.zTree.getZTreeObj("treeDemo"),
+            nodes=treeObj.getCheckedNodes(true),
+            v="";
+        /*<![CDATA[*/
+        for(var i=0;i<nodes.length;i++){
+            /*]]>*/
+            v+=nodes[i].name + ",";
+            alert(nodes[i].menuId); //获取选中节点的值
+        }
+    }
+    var zNodes = [ ];  // zTree 的数据属性，此处使用标准json格式
+
+    $.ajax({
+        type:'post',
+        url:'/Sys/menu/showTreeData',
+        async:false,
+        contentType: "application/json",
+        success:function (data) {
+            zNodes = data;
+        },
+        error:function(){
+          layer.msg("失败！",{icon:6});
+        }
+    })
+
+    $(document).ready(function () {
+        zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, zNodes); //初始化zTree，三个参数一次分别是容器(zTree 的容器 className 别忘了设置为 "ztree")、参数配置、数据源
+    });
+</SCRIPT>
+</body>
+</html>

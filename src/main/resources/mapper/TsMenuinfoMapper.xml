@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ace.smart.mapper.TsMenuinfoMapper" >
+
+    <resultMap id="BaseResultMap" type="com.ace.smart.entity.TsMenuinfo" >
+        <id column="menu_id" property="menuId" jdbcType="VARCHAR" />
+        <result column="subsys_code" property="subsysCode" jdbcType="VARCHAR" />
+        <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
+        <result column="up_menu_id" property="upMenuId" jdbcType="VARCHAR" />
+        <result column="menu_class" property="menuClass" jdbcType="CHAR" />
+        <result column="menu_type" property="menuType" jdbcType="CHAR" />
+        <result column="module_id" property="moduleId" jdbcType="VARCHAR" />
+        <result column="in_param_code1" property="inParamCode1" jdbcType="VARCHAR" />
+        <result column="in_param_value1" property="inParamValue1" jdbcType="VARCHAR" />
+        <result column="in_param_code2" property="inParamCode2" jdbcType="VARCHAR" />
+        <result column="in_param_value2" property="inParamValue2" jdbcType="VARCHAR" />
+        <result column="in_param_code3" property="inParamCode3" jdbcType="VARCHAR" />
+        <result column="in_param_value3" property="inParamValue3" jdbcType="VARCHAR" />
+        <result column="remove_tag" property="removeTag" jdbcType="CHAR" />
+        <result column="rsrv_str1" property="rsrvStr1" jdbcType="VARCHAR" />
+        <result column="rsrv_str2" property="rsrvStr2" jdbcType="VARCHAR" />
+        <result column="rsrv_str3" property="rsrvStr3" jdbcType="VARCHAR" />
+        <result column="rsrv_str4" property="rsrvStr4" jdbcType="VARCHAR" />
+        <result column="rsrv_str5" property="rsrvStr5" jdbcType="CHAR" />
+        <result column="rsrv_str6" property="rsrvStr6" jdbcType="CHAR" />
+        <result column="rsrv_str7" property="rsrvStr7" jdbcType="CHAR" />
+        <result column="rsrv_str8" property="rsrvStr8" jdbcType="CHAR" />
+        <result column="rsrv_str9" property="rsrvStr9" jdbcType="VARCHAR" />
+        <result column="rsrv_str0" property="rsrvStr0" jdbcType="INTEGER" />
+        <result column="in_staff_id" property="inStaffId" jdbcType="VARCHAR" />
+        <result column="in_date" property="inDate" jdbcType="TIMESTAMP" />
+        <result column="remark" property="remark" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="ModuleResultMap" type="com.ace.smart.entity.TsModuleinfo" >
+        <id column="module_id" property="moduleId" jdbcType="VARCHAR" />
+        <result column="module_name" property="moduleName" jdbcType="VARCHAR" />
+        <result column="module_file" property="moduleFile" jdbcType="VARCHAR" />
+        <result column="module_dir" property="moduleDir" jdbcType="VARCHAR" />
+        <result column="module_type" property="moduleType" jdbcType="CHAR" />
+        <result column="rsrv_str1" property="rsrvStr1" jdbcType="VARCHAR" />
+        <result column="rsrv_str2" property="rsrvStr2" jdbcType="VARCHAR" />
+        <result column="rsrv_str3" property="rsrvStr3" jdbcType="VARCHAR" />
+        <result column="rsrv_str4" property="rsrvStr4" jdbcType="VARCHAR" />
+        <result column="rsrv_str5" property="rsrvStr5" jdbcType="CHAR" />
+        <result column="rsrv_str6" property="rsrvStr6" jdbcType="CHAR" />
+        <result column="rsrv_str7" property="rsrvStr7" jdbcType="CHAR" />
+        <result column="rsrv_str8" property="rsrvStr8" jdbcType="CHAR" />
+        <result column="rsrv_str9" property="rsrvStr9" jdbcType="VARCHAR" />
+        <result column="rsrv_str0" property="rsrvStr0" jdbcType="VARCHAR" />
+        <result column="in_staff_id" property="inStaffId" jdbcType="VARCHAR" />
+        <result column="in_date" property="inDate" jdbcType="TIMESTAMP" />
+        <result column="remark" property="remark" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="menuItemsResultMap" type="com.ace.smart.entity.TsMenuinfo">
+        <id column="menu_id" property="menuId" jdbcType="VARCHAR" />
+        <result column="subsys_code" property="subsysCode" jdbcType="VARCHAR" />
+        <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
+        <result column="up_menu_id" property="upMenuId" jdbcType="VARCHAR" />
+        <result column="menu_class" property="menuClass" jdbcType="CHAR" />
+        <result column="menu_type" property="menuType" jdbcType="CHAR" />
+        <result column="module_id" property="moduleId" jdbcType="VARCHAR" />
+        <result column="in_param_code1" property="inParamCode1" jdbcType="VARCHAR" />
+        <result column="in_param_value1" property="inParamValue1" jdbcType="VARCHAR" />
+        <result column="in_param_code2" property="inParamCode2" jdbcType="VARCHAR" />
+        <result column="in_param_value2" property="inParamValue2" jdbcType="VARCHAR" />
+        <result column="in_param_code3" property="inParamCode3" jdbcType="VARCHAR" />
+        <result column="in_param_value3" property="inParamValue3" jdbcType="VARCHAR" />
+        <result column="remove_tag" property="removeTag" jdbcType="CHAR" />
+        <result column="rsrv_str1" property="rsrvStr1" jdbcType="VARCHAR" />
+        <result column="rsrv_str2" property="rsrvStr2" jdbcType="VARCHAR" />
+        <result column="rsrv_str3" property="rsrvStr3" jdbcType="VARCHAR" />
+        <result column="rsrv_str4" property="rsrvStr4" jdbcType="VARCHAR" />
+        <result column="rsrv_str5" property="rsrvStr5" jdbcType="CHAR" />
+        <result column="rsrv_str6" property="rsrvStr6" jdbcType="CHAR" />
+        <result column="rsrv_str7" property="rsrvStr7" jdbcType="CHAR" />
+        <result column="rsrv_str8" property="rsrvStr8" jdbcType="CHAR" />
+        <result column="rsrv_str9" property="rsrvStr9" jdbcType="VARCHAR" />
+        <result column="rsrv_str0" property="rsrvStr0" jdbcType="INTEGER" />
+        <result column="in_staff_id" property="inStaffId" jdbcType="VARCHAR" />
+        <result column="in_date" property="inDate" jdbcType="TIMESTAMP" />
+        <result column="remark" property="remark" jdbcType="VARCHAR" />
+        <association property="tsModuleinfo" resultMap="ModuleResultMap" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        menu_id, subsys_code, menu_name, up_menu_id, menu_class, menu_type, module_id, in_param_code1, 
+        in_param_value1, in_param_code2, in_param_value2, in_param_code3, in_param_value3, 
+        remove_tag, rsrv_str1, rsrv_str2, rsrv_str3, rsrv_str4, rsrv_str5, rsrv_str6, rsrv_str7, 
+        rsrv_str8, rsrv_str9, rsrv_str0, in_staff_id, in_date, remark
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select 
+        <include refid="Base_Column_List" />
+        from ts_menuinfo
+        where menu_id = #{menuId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByUpMenuId" parameterType="java.lang.String" resultMap="menuItemsResultMap">
+        SELECT me.menu_id,me.menu_class,me.menu_name,me.up_menu_id,md.module_file,md.module_id,me.rsrv_str0 from ts_menuinfo me LEFT JOIN ts_moduleinfo md ON
+        me.module_id = md.module_id
+        where me.subsys_code = 'SYS' and me.up_menu_id = #{up_menu_id}
+        ORDER BY me.rsrv_str0 DESC
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from ts_menuinfo
+        where menu_id = #{menuId,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insert" parameterType="com.ace.smart.entity.TsMenuinfo" >
+        insert into ts_menuinfo (menu_id, subsys_code, menu_name, 
+            up_menu_id, menu_class, menu_type, 
+            module_id, in_param_code1, in_param_value1, 
+            in_param_code2, in_param_value2, in_param_code3, 
+            in_param_value3, remove_tag, rsrv_str1, 
+            rsrv_str2, rsrv_str3, rsrv_str4, 
+            rsrv_str5, rsrv_str6, rsrv_str7, 
+            rsrv_str8, rsrv_str9, rsrv_str0, 
+            in_staff_id, in_date, remark
+            )
+        values (#{menuId,jdbcType=VARCHAR}, #{subsysCode,jdbcType=VARCHAR}, #{menuName,jdbcType=VARCHAR}, 
+            #{upMenuId,jdbcType=VARCHAR}, #{menuClass,jdbcType=CHAR}, #{menuType,jdbcType=CHAR}, 
+            #{moduleId,jdbcType=VARCHAR}, #{inParamCode1,jdbcType=VARCHAR}, #{inParamValue1,jdbcType=VARCHAR}, 
+            #{inParamCode2,jdbcType=VARCHAR}, #{inParamValue2,jdbcType=VARCHAR}, #{inParamCode3,jdbcType=VARCHAR}, 
+            #{inParamValue3,jdbcType=VARCHAR}, #{removeTag,jdbcType=CHAR}, #{rsrvStr1,jdbcType=VARCHAR}, 
+            #{rsrvStr2,jdbcType=VARCHAR}, #{rsrvStr3,jdbcType=VARCHAR}, #{rsrvStr4,jdbcType=VARCHAR}, 
+            #{rsrvStr5,jdbcType=CHAR}, #{rsrvStr6,jdbcType=CHAR}, #{rsrvStr7,jdbcType=CHAR}, 
+            #{rsrvStr8,jdbcType=CHAR}, #{rsrvStr9,jdbcType=VARCHAR}, #{rsrvStr0,jdbcType=INTEGER}, 
+            #{inStaffId,jdbcType=VARCHAR}, #{inDate,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
+            )
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.ace.smart.entity.TsMenuinfo" >
+        insert into ts_menuinfo
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="menuId != null" >
+                menu_id,
+            </if>
+            <if test="subsysCode != null" >
+                subsys_code,
+            </if>
+            <if test="menuName != null" >
+                menu_name,
+            </if>
+            <if test="upMenuId != null" >
+                up_menu_id,
+            </if>
+            <if test="menuClass != null" >
+                menu_class,
+            </if>
+            <if test="menuType != null" >
+                menu_type,
+            </if>
+            <if test="moduleId != null" >
+                module_id,
+            </if>
+            <if test="inParamCode1 != null" >
+                in_param_code1,
+            </if>
+            <if test="inParamValue1 != null" >
+                in_param_value1,
+            </if>
+            <if test="inParamCode2 != null" >
+                in_param_code2,
+            </if>
+            <if test="inParamValue2 != null" >
+                in_param_value2,
+            </if>
+            <if test="inParamCode3 != null" >
+                in_param_code3,
+            </if>
+            <if test="inParamValue3 != null" >
+                in_param_value3,
+            </if>
+            <if test="removeTag != null" >
+                remove_tag,
+            </if>
+            <if test="rsrvStr1 != null" >
+                rsrv_str1,
+            </if>
+            <if test="rsrvStr2 != null" >
+                rsrv_str2,
+            </if>
+            <if test="rsrvStr3 != null" >
+                rsrv_str3,
+            </if>
+            <if test="rsrvStr4 != null" >
+                rsrv_str4,
+            </if>
+            <if test="rsrvStr5 != null" >
+                rsrv_str5,
+            </if>
+            <if test="rsrvStr6 != null" >
+                rsrv_str6,
+            </if>
+            <if test="rsrvStr7 != null" >
+                rsrv_str7,
+            </if>
+            <if test="rsrvStr8 != null" >
+                rsrv_str8,
+            </if>
+            <if test="rsrvStr9 != null" >
+                rsrv_str9,
+            </if>
+            <if test="rsrvStr0 != null" >
+                rsrv_str0,
+            </if>
+            <if test="inStaffId != null" >
+                in_staff_id,
+            </if>
+            <if test="inDate != null" >
+                in_date,
+            </if>
+            <if test="remark != null" >
+                remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="menuId != null" >
+                #{menuId,jdbcType=VARCHAR},
+            </if>
+            <if test="subsysCode != null" >
+                #{subsysCode,jdbcType=VARCHAR},
+            </if>
+            <if test="menuName != null" >
+                #{menuName,jdbcType=VARCHAR},
+            </if>
+            <if test="upMenuId != null" >
+                #{upMenuId,jdbcType=VARCHAR},
+            </if>
+            <if test="menuClass != null" >
+                #{menuClass,jdbcType=CHAR},
+            </if>
+            <if test="menuType != null" >
+                #{menuType,jdbcType=CHAR},
+            </if>
+            <if test="moduleId != null" >
+                #{moduleId,jdbcType=VARCHAR},
+            </if>
+            <if test="inParamCode1 != null" >
+                #{inParamCode1,jdbcType=VARCHAR},
+            </if>
+            <if test="inParamValue1 != null" >
+                #{inParamValue1,jdbcType=VARCHAR},
+            </if>
+            <if test="inParamCode2 != null" >
+                #{inParamCode2,jdbcType=VARCHAR},
+            </if>
+            <if test="inParamValue2 != null" >
+                #{inParamValue2,jdbcType=VARCHAR},
+            </if>
+            <if test="inParamCode3 != null" >
+                #{inParamCode3,jdbcType=VARCHAR},
+            </if>
+            <if test="inParamValue3 != null" >
+                #{inParamValue3,jdbcType=VARCHAR},
+            </if>
+            <if test="removeTag != null" >
+                #{removeTag,jdbcType=CHAR},
+            </if>
+            <if test="rsrvStr1 != null" >
+                #{rsrvStr1,jdbcType=VARCHAR},
+            </if>
+            <if test="rsrvStr2 != null" >
+                #{rsrvStr2,jdbcType=VARCHAR},
+            </if>
+            <if test="rsrvStr3 != null" >
+                #{rsrvStr3,jdbcType=VARCHAR},
+            </if>
+            <if test="rsrvStr4 != null" >
+                #{rsrvStr4,jdbcType=VARCHAR},
+            </if>
+            <if test="rsrvStr5 != null" >
+                #{rsrvStr5,jdbcType=CHAR},
+            </if>
+            <if test="rsrvStr6 != null" >
+                #{rsrvStr6,jdbcType=CHAR},
+            </if>
+            <if test="rsrvStr7 != null" >
+                #{rsrvStr7,jdbcType=CHAR},
+            </if>
+            <if test="rsrvStr8 != null" >
+                #{rsrvStr8,jdbcType=CHAR},
+            </if>
+            <if test="rsrvStr9 != null" >
+                #{rsrvStr9,jdbcType=VARCHAR},
+            </if>
+            <if test="rsrvStr0 != null" >
+                #{rsrvStr0,jdbcType=INTEGER},
+            </if>
+            <if test="inStaffId != null" >
+                #{inStaffId,jdbcType=VARCHAR},
+            </if>
+            <if test="inDate != null" >
+                #{inDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null" >
+                #{remark,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.ace.smart.entity.TsMenuinfo" >
+        update ts_menuinfo
+        <set >
+            <if test="subsysCode != null" >
+                subsys_code = #{subsysCode,jdbcType=VARCHAR},
+            </if>
+            <if test="menuName != null" >
+                menu_name = #{menuName,jdbcType=VARCHAR},
+            </if>
+            <if test="upMenuId != null" >
+                up_menu_id = #{upMenuId,jdbcType=VARCHAR},
+            </if>
+            <if test="menuClass != null" >
+                menu_class = #{menuClass,jdbcType=CHAR},
+            </if>
+            <if test="menuType != null" >
+                menu_type = #{menuType,jdbcType=CHAR},
+            </if>
+            <if test="moduleId != null" >
+                module_id = #{moduleId,jdbcType=VARCHAR},
+            </if>
+            <if test="inParamCode1 != null" >
+                in_param_code1 = #{inParamCode1,jdbcType=VARCHAR},
+            </if>
+            <if test="inParamValue1 != null" >
+                in_param_value1 = #{inParamValue1,jdbcType=VARCHAR},
+            </if>
+            <if test="inParamCode2 != null" >
+                in_param_code2 = #{inParamCode2,jdbcType=VARCHAR},
+            </if>
+            <if test="inParamValue2 != null" >
+                in_param_value2 = #{inParamValue2,jdbcType=VARCHAR},
+            </if>
+            <if test="inParamCode3 != null" >
+                in_param_code3 = #{inParamCode3,jdbcType=VARCHAR},
+            </if>
+            <if test="inParamValue3 != null" >
+                in_param_value3 = #{inParamValue3,jdbcType=VARCHAR},
+            </if>
+            <if test="removeTag != null" >
+                remove_tag = #{removeTag,jdbcType=CHAR},
+            </if>
+            <if test="rsrvStr1 != null" >
+                rsrv_str1 = #{rsrvStr1,jdbcType=VARCHAR},
+            </if>
+            <if test="rsrvStr2 != null" >
+                rsrv_str2 = #{rsrvStr2,jdbcType=VARCHAR},
+            </if>
+            <if test="rsrvStr3 != null" >
+                rsrv_str3 = #{rsrvStr3,jdbcType=VARCHAR},
+            </if>
+            <if test="rsrvStr4 != null" >
+                rsrv_str4 = #{rsrvStr4,jdbcType=VARCHAR},
+            </if>
+            <if test="rsrvStr5 != null" >
+                rsrv_str5 = #{rsrvStr5,jdbcType=CHAR},
+            </if>
+            <if test="rsrvStr6 != null" >
+                rsrv_str6 = #{rsrvStr6,jdbcType=CHAR},
+            </if>
+            <if test="rsrvStr7 != null" >
+                rsrv_str7 = #{rsrvStr7,jdbcType=CHAR},
+            </if>
+            <if test="rsrvStr8 != null" >
+                rsrv_str8 = #{rsrvStr8,jdbcType=CHAR},
+            </if>
+            <if test="rsrvStr9 != null" >
+                rsrv_str9 = #{rsrvStr9,jdbcType=VARCHAR},
+            </if>
+            <if test="rsrvStr0 != null" >
+                rsrv_str0 = #{rsrvStr0,jdbcType=INTEGER},
+            </if>
+            <if test="inStaffId != null" >
+                in_staff_id = #{inStaffId,jdbcType=VARCHAR},
+            </if>
+            <if test="inDate != null" >
+                in_date = #{inDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null" >
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where menu_id = #{menuId,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.ace.smart.entity.TsMenuinfo" >
+        update ts_menuinfo
+        set subsys_code = #{subsysCode,jdbcType=VARCHAR},
+            menu_name = #{menuName,jdbcType=VARCHAR},
+            up_menu_id = #{upMenuId,jdbcType=VARCHAR},
+            menu_class = #{menuClass,jdbcType=CHAR},
+            menu_type = #{menuType,jdbcType=CHAR},
+            module_id = #{moduleId,jdbcType=VARCHAR},
+            in_param_code1 = #{inParamCode1,jdbcType=VARCHAR},
+            in_param_value1 = #{inParamValue1,jdbcType=VARCHAR},
+            in_param_code2 = #{inParamCode2,jdbcType=VARCHAR},
+            in_param_value2 = #{inParamValue2,jdbcType=VARCHAR},
+            in_param_code3 = #{inParamCode3,jdbcType=VARCHAR},
+            in_param_value3 = #{inParamValue3,jdbcType=VARCHAR},
+            remove_tag = #{removeTag,jdbcType=CHAR},
+            rsrv_str1 = #{rsrvStr1,jdbcType=VARCHAR},
+            rsrv_str2 = #{rsrvStr2,jdbcType=VARCHAR},
+            rsrv_str3 = #{rsrvStr3,jdbcType=VARCHAR},
+            rsrv_str4 = #{rsrvStr4,jdbcType=VARCHAR},
+            rsrv_str5 = #{rsrvStr5,jdbcType=CHAR},
+            rsrv_str6 = #{rsrvStr6,jdbcType=CHAR},
+            rsrv_str7 = #{rsrvStr7,jdbcType=CHAR},
+            rsrv_str8 = #{rsrvStr8,jdbcType=CHAR},
+            rsrv_str9 = #{rsrvStr9,jdbcType=VARCHAR},
+            rsrv_str0 = #{rsrvStr0,jdbcType=INTEGER},
+            in_staff_id = #{inStaffId,jdbcType=VARCHAR},
+            in_date = #{inDate,jdbcType=TIMESTAMP},
+            remark = #{remark,jdbcType=VARCHAR}
+        where menu_id = #{menuId,jdbcType=VARCHAR}
+    </update>
+</mapper>

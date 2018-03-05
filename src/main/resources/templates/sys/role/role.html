@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <style>
+        .fl{float:left;}
+        .f2{padding-left: 10px;}
+    </style>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}"/>
+</head>
+<body>
+<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief" style="margin: 0px;">
+    <ul class="layui-tab-title">
+        <li class="layui-this" lay-id="1" data-type="switch_level_one">权限管理</li>
+    </ul>
+    <div class="layui-tab-content" style="height: 70px;">
+        <div class="layui-tab-item layui-show">
+            <blockquote class="layui-elem-quote mylog-info-tit">
+                <div class="layui-inline">
+                    <form class="layui-form" id="userSearchForm">
+                        <div class="layui-input-inline" style="width:110px;">
+                            <select name="searchTerm" id="searchTitle">
+                                <option value=""></option>
+                                <option value="rName">权限名称</option>
+                            </select>
+                        </div>
+                        <div class="layui-input-inline" style="width:145px;">
+                            <input type="text" name="rName" id="searchrName" value=""  placeholder="请输入关键字" class="layui-input search_input"/>
+                        </div>
+                    </form>
+                </div>
+                <div class="layui-inline" id="roleTableBtn">
+                    <button class="layui-btn" lay-filter="form"  data-type="search"><i class="layui-icon">&#xe615;</i>查询</button>
+                    <button class="layui-btn" data-type="addPRole" id="createRole"><i class="layui-icon">&#xe608;</i> 添加权限</button>
+                    <button class="layui-btn" data-type="getCheckData" ><i class="layui-icon">&#xe608;</i> 批量删除</button>
+                </div>
+            </blockquote>
+        </div>
+    </div>
+</div>
+<div class="mainBar">
+    <table lay-filter="roleControl" id="role" class="table_margin"></table>
+</div>
+<script type="text/html" id="bar">
+    <a class="layui-btn layui-btn-xs" lay-event="update">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script th:src="@{/jQuery/jquery-3.0.0.min.js}"></script>
+<script th:src="@{/layui/layui.js}"></script>
+<script th:src="@{/sys/role/index.js}"></script>
+</body>
+</html>

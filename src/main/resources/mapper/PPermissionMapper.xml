@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ace.smart.mapper.PPermissionMapper" >
+
+    <resultMap id="BaseResultMap" type="com.ace.smart.entity.PPermission" >
+        <id column="menu_id" property="menuId" jdbcType="BIGINT" />
+        <result column="url" property="url" jdbcType="VARCHAR" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="VARCHAR" />
+        <result column="parent_id" property="parentId" jdbcType="BIGINT" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <resultMap id="BaseResultVoMap" type="com.ace.smart.entity.vo.PPermissionVo" >
+        <id column="menu_id" property="menuId" jdbcType="BIGINT" />
+        <result column="url" property="url" jdbcType="VARCHAR" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="VARCHAR" />
+        <result column="parent_id" property="parentId" jdbcType="BIGINT" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="parent_name" property="parentname" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        menu_id, url, name, parent_id,status,DATE_FORMAT(create_time, '%Y-%m-%d %T') create_time,DATE_FORMAT(update_time, '%Y-%m-%d %T')update_time
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select 
+        <include refid="Base_Column_List" />
+        from p_permission
+        where menu_id = #{menuId,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT pp.menu_id, pp.url,pp.name,(select c.name from p_permission c where c.menu_id = pp.parent_id)parent_id,parent_id,status,DATE_FORMAT(pp.create_time, '%Y-%m-%d %T') create_time,DATE_FORMAT(pp.update_time, '%Y-%m-%d %T')update_time
+      from p_permission pp
+    </select>
+
+    <select id="selectAllMenu" resultMap="BaseResultMap">
+         SELECT  menu_id,name,parent_id from p_permission where status = '1'
+    </select>
+    
+    <select id="selectAllByParetnId" resultMap="BaseResultVoMap" resultType="java.util.Map">
+        <if test="name!=null">
+          <bind name="name" value="'%' +_parameter.name+ '%'" />
+        </if>
+        SELECT pp.menu_id, pp.url,pp.name,(select c.name from p_permission c where c.menu_id = pp.parent_id)parent_name,parent_id,status,DATE_FORMAT(pp.create_time, '%Y-%m-%d %T') create_time,DATE_FORMAT(pp.update_time, '%Y-%m-%d %T')update_time
+        from p_permission pp
+        <where>
+            <if test="parentId!=null">pp.parent_id = #{parentId}</if>
+            <if test="name!=null"> pp.name LIKE #{name}</if>
+        </where>
+        order by pp.update_time desc
+    </select>
+
+    <select id="selectByParent" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT  menu_id,name from p_permission where parent_id = #{value}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        delete from p_permission
+        where menu_id = #{menuId,jdbcType=BIGINT}
+    </delete>
+
+    <insert id="insert" parameterType="com.ace.smart.entity.PPermission" >
+        insert into p_permission (menu_id, url, name, 
+            parent_id,status, create_time, update_time
+            )
+        values (#{menuId,jdbcType=BIGINT}, #{url,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},#{status,jdbcType=CHAR}
+            #{parentId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+            )
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.ace.smart.entity.PPermission" >
+        insert into p_permission
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="menuId != null" >
+                menu_id,
+            </if>
+            <if test="url != null" >
+                url,
+            </if>
+            <if test="name != null" >
+                name,
+            </if>
+            <if test="parentId != null" >
+                parent_id,
+            </if>
+            <if test="status != null" >
+                status,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+            <if test="updateTime != null" >
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="menuId != null" >
+                #{menuId,jdbcType=BIGINT},
+            </if>
+            <if test="url != null" >
+                #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null" >
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null" >
+                #{parentId,jdbcType=BIGINT},
+            </if>
+            <if test="status != null" >
+                #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null" >
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.ace.smart.entity.PPermission" >
+        update p_permission
+        <set >
+            <if test="url != null" >
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null" >
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null" >
+                parent_id = #{parentId,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null" >
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where menu_id = #{menuId,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.ace.smart.entity.PPermission" >
+        update p_permission
+        set url = #{url,jdbcType=VARCHAR},
+            name = #{name,jdbcType=VARCHAR},
+            parent_id = #{parentId,jdbcType=BIGINT},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+            update_time = #{updateTime,jdbcType=TIMESTAMP}
+        where menu_id = #{menuId,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateState" parameterType="java.util.Map">
+      update p_permission
+        set status = #{status}
+      where menu_id = #{menuId}
+    </update>
+</mapper>

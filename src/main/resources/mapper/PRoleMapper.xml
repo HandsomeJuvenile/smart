@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ace.smart.mapper.PRoleMapper" >
+
+    <resultMap id="BaseResultMap" type="com.ace.smart.entity.PRole" >
+        <id column="r_id" property="rId" jdbcType="BIGINT" />
+        <result column="r_name" property="rName" jdbcType="VARCHAR" />
+        <result column="r_status" property="rStatus" jdbcType="CHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="remark" property="remark" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        r_id, r_name, CASE r_status WHEN '0' THEN '禁用' WHEN '1' THEN '启用' END r_status,DATE_FORMAT(create_time, '%Y-%m-%d %T') create_time, remark
+    </sql>
+
+    <sql id="Base_Column_List2" >
+        r_id, r_name,r_status,DATE_FORMAT(create_time, '%Y-%m-%d %T') create_time, remark
+    </sql>
+
+    <select id="selectAll" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List" />
+        from p_role
+        <where>
+            <if test="value!=null">
+                r_name like "%"#{value}"%"
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select 
+        <include refid="Base_Column_List2" />
+        from p_role
+        where r_id = #{rId,jdbcType=BIGINT}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        delete from p_role where r_id in
+        <foreach collection="array" item="rId" open="(" separator="," close=")">
+            #{rId}
+        </foreach>
+    </delete>
+
+    <insert id="insert" parameterType="com.ace.smart.entity.PRole" >
+        insert into p_role (r_id, r_name,
+            r_status,  create_time,
+            remark)
+        values (#{rId,jdbcType=BIGINT}, #{rName,jdbcType=VARCHAR},
+            #{rStatus,jdbcType=CHAR},  #{createTime,jdbcType=TIMESTAMP},
+            #{remark,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.ace.smart.entity.PRole" >
+        insert into p_role
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="rId != null" >
+                r_id,
+            </if>
+            <if test="rName != null" >
+                r_name,
+            </if>
+            <if test="rStatus != null" >
+                r_status,
+            </if>
+
+            <if test="createTime != null" >
+                create_time,
+            </if>
+            <if test="remark != null" >
+                remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="rId != null" >
+                #{rId,jdbcType=BIGINT},
+            </if>
+            <if test="rName != null" >
+                #{rName,jdbcType=VARCHAR},
+            </if>
+            <if test="rStatus != null" >
+                #{rStatus,jdbcType=CHAR},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null" >
+                #{remark,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.ace.smart.entity.PRole" >
+        update p_role
+        <set >
+            <if test="rName != null" >
+                r_name = #{rName,jdbcType=VARCHAR},
+            </if>
+            <if test="rStatus != null" >
+                r_status = #{rStatus,jdbcType=CHAR},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null" >
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where r_id = #{rId,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.ace.smart.entity.PRole" >
+        update p_role
+        set r_name = #{rName,jdbcType=VARCHAR},
+            r_status = #{rStatus,jdbcType=CHAR},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+            remark = #{remark,jdbcType=VARCHAR}
+        where r_id = #{rId,jdbcType=BIGINT}
+    </update>
+</mapper>

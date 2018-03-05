@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <title>Hello World!</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}"/>
+</head>
+<body>
+<!-- 输出当前用户信息，通常为登录帐号信息。 -->
+
+
+
+
+<shiro:hasRole th:name="admin11" name="admin">admin</shiro:hasRole>
+<a th:href="@{/Sys/user/show}" href="">用户管理</a>
+<a th:href="@{/Sys/menu/show}" href="">菜单管理</a>
+<a th:href="@{/Sys/role/show}" href="">菜单管理</a>
+<table class="layui-table">
+    <colgroup>
+        <col width="150"/>
+        <col width="200"/>
+        <col/>
+    </colgroup>
+    <thead>
+    <tr>
+        <th>昵称</th>
+        <th>加入时间</th>
+        <th>签名</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>贤心</td>
+        <td>2016-11-29</td>
+        <td>人生就像是一场修行</td>
+    </tr>
+    <tr>
+        <td>许闲心</td>
+        <td>2016-11-28</td>
+        <td>于千万人之中遇见你所遇见的人，于千万年之中，时间的无涯的荒野里…</td>
+    </tr>
+    </tbody>
+</table>
+<script th:src="@{/layui/layui.js}"></script>
+<script>
+    //一般直接写在一个js文件中
+    layui.use(['layer', 'form'], function(){
+        var layer = layui.layer
+            ,form = layui.form;
+
+        layer.msg('Hello World');
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ace.smart.mapper.TsModuleinfoMapper" >
+
+    <resultMap id="BaseResultMap" type="com.ace.smart.entity.TsModuleinfo" >
+        <id column="module_id" property="moduleId" jdbcType="VARCHAR" />
+        <result column="module_name" property="moduleName" jdbcType="VARCHAR" />
+        <result column="module_file" property="moduleFile" jdbcType="VARCHAR" />
+        <result column="module_dir" property="moduleDir" jdbcType="VARCHAR" />
+        <result column="module_type" property="moduleType" jdbcType="CHAR" />
+        <result column="rsrv_str1" property="rsrvStr1" jdbcType="VARCHAR" />
+        <result column="rsrv_str2" property="rsrvStr2" jdbcType="VARCHAR" />
+        <result column="rsrv_str3" property="rsrvStr3" jdbcType="VARCHAR" />
+        <result column="rsrv_str4" property="rsrvStr4" jdbcType="VARCHAR" />
+        <result column="rsrv_str5" property="rsrvStr5" jdbcType="CHAR" />
+        <result column="rsrv_str6" property="rsrvStr6" jdbcType="CHAR" />
+        <result column="rsrv_str7" property="rsrvStr7" jdbcType="CHAR" />
+        <result column="rsrv_str8" property="rsrvStr8" jdbcType="CHAR" />
+        <result column="rsrv_str9" property="rsrvStr9" jdbcType="VARCHAR" />
+        <result column="rsrv_str0" property="rsrvStr0" jdbcType="VARCHAR" />
+        <result column="in_staff_id" property="inStaffId" jdbcType="VARCHAR" />
+        <result column="in_date" property="inDate" jdbcType="TIMESTAMP" />
+        <result column="remark" property="remark" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        module_id, module_name, module_file, module_dir, module_type, rsrv_str1, rsrv_str2, 
+        rsrv_str3, rsrv_str4, rsrv_str5, rsrv_str6, rsrv_str7, rsrv_str8, rsrv_str9, rsrv_str0, 
+        in_staff_id, in_date, remark
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select 
+        <include refid="Base_Column_List" />
+        from ts_moduleinfo
+        where module_id = #{moduleId,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from ts_moduleinfo
+        where module_id = #{moduleId,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insert" parameterType="com.ace.smart.entity.TsModuleinfo" >
+        insert into ts_moduleinfo (module_id, module_name, module_file, 
+            module_dir, module_type, rsrv_str1, 
+            rsrv_str2, rsrv_str3, rsrv_str4, 
+            rsrv_str5, rsrv_str6, rsrv_str7, 
+            rsrv_str8, rsrv_str9, rsrv_str0, 
+            in_staff_id, in_date, remark
+            )
+        values (#{moduleId,jdbcType=VARCHAR}, #{moduleName,jdbcType=VARCHAR}, #{moduleFile,jdbcType=VARCHAR}, 
+            #{moduleDir,jdbcType=VARCHAR}, #{moduleType,jdbcType=CHAR}, #{rsrvStr1,jdbcType=VARCHAR}, 
+            #{rsrvStr2,jdbcType=VARCHAR}, #{rsrvStr3,jdbcType=VARCHAR}, #{rsrvStr4,jdbcType=VARCHAR}, 
+            #{rsrvStr5,jdbcType=CHAR}, #{rsrvStr6,jdbcType=CHAR}, #{rsrvStr7,jdbcType=CHAR}, 
+            #{rsrvStr8,jdbcType=CHAR}, #{rsrvStr9,jdbcType=VARCHAR}, #{rsrvStr0,jdbcType=VARCHAR}, 
+            #{inStaffId,jdbcType=VARCHAR}, #{inDate,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
+            )
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.ace.smart.entity.TsModuleinfo" >
+        insert into ts_moduleinfo
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="moduleId != null" >
+                module_id,
+            </if>
+            <if test="moduleName != null" >
+                module_name,
+            </if>
+            <if test="moduleFile != null" >
+                module_file,
+            </if>
+            <if test="moduleDir != null" >
+                module_dir,
+            </if>
+            <if test="moduleType != null" >
+                module_type,
+            </if>
+            <if test="rsrvStr1 != null" >
+                rsrv_str1,
+            </if>
+            <if test="rsrvStr2 != null" >
+                rsrv_str2,
+            </if>
+            <if test="rsrvStr3 != null" >
+                rsrv_str3,
+            </if>
+            <if test="rsrvStr4 != null" >
+                rsrv_str4,
+            </if>
+            <if test="rsrvStr5 != null" >
+                rsrv_str5,
+            </if>
+            <if test="rsrvStr6 != null" >
+                rsrv_str6,
+            </if>
+            <if test="rsrvStr7 != null" >
+                rsrv_str7,
+            </if>
+            <if test="rsrvStr8 != null" >
+                rsrv_str8,
+            </if>
+            <if test="rsrvStr9 != null" >
+                rsrv_str9,
+            </if>
+            <if test="rsrvStr0 != null" >
+                rsrv_str0,
+            </if>
+            <if test="inStaffId != null" >
+                in_staff_id,
+            </if>
+            <if test="inDate != null" >
+                in_date,
+            </if>
+            <if test="remark != null" >
+                remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="moduleId != null" >
+                #{moduleId,jdbcType=VARCHAR},
+            </if>
+            <if test="moduleName != null" >
+                #{moduleName,jdbcType=VARCHAR},
+            </if>
+            <if test="moduleFile != null" >
+                #{moduleFile,jdbcType=VARCHAR},
+            </if>
+            <if test="moduleDir != null" >
+                #{moduleDir,jdbcType=VARCHAR},
+            </if>
+            <if test="moduleType != null" >
+                #{moduleType,jdbcType=CHAR},
+            </if>
+            <if test="rsrvStr1 != null" >
+                #{rsrvStr1,jdbcType=VARCHAR},
+            </if>
+            <if test="rsrvStr2 != null" >
+                #{rsrvStr2,jdbcType=VARCHAR},
+            </if>
+            <if test="rsrvStr3 != null" >
+                #{rsrvStr3,jdbcType=VARCHAR},
+            </if>
+            <if test="rsrvStr4 != null" >
+                #{rsrvStr4,jdbcType=VARCHAR},
+            </if>
+            <if test="rsrvStr5 != null" >
+                #{rsrvStr5,jdbcType=CHAR},
+            </if>
+            <if test="rsrvStr6 != null" >
+                #{rsrvStr6,jdbcType=CHAR},
+            </if>
+            <if test="rsrvStr7 != null" >
+                #{rsrvStr7,jdbcType=CHAR},
+            </if>
+            <if test="rsrvStr8 != null" >
+                #{rsrvStr8,jdbcType=CHAR},
+            </if>
+            <if test="rsrvStr9 != null" >
+                #{rsrvStr9,jdbcType=VARCHAR},
+            </if>
+            <if test="rsrvStr0 != null" >
+                #{rsrvStr0,jdbcType=VARCHAR},
+            </if>
+            <if test="inStaffId != null" >
+                #{inStaffId,jdbcType=VARCHAR},
+            </if>
+            <if test="inDate != null" >
+                #{inDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null" >
+                #{remark,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.ace.smart.entity.TsModuleinfo" >
+        update ts_moduleinfo
+        <set >
+            <if test="moduleName != null" >
+                module_name = #{moduleName,jdbcType=VARCHAR},
+            </if>
+            <if test="moduleFile != null" >
+                module_file = #{moduleFile,jdbcType=VARCHAR},
+            </if>
+            <if test="moduleDir != null" >
+                module_dir = #{moduleDir,jdbcType=VARCHAR},
+            </if>
+            <if test="moduleType != null" >
+                module_type = #{moduleType,jdbcType=CHAR},
+            </if>
+            <if test="rsrvStr1 != null" >
+                rsrv_str1 = #{rsrvStr1,jdbcType=VARCHAR},
+            </if>
+            <if test="rsrvStr2 != null" >
+                rsrv_str2 = #{rsrvStr2,jdbcType=VARCHAR},
+            </if>
+            <if test="rsrvStr3 != null" >
+                rsrv_str3 = #{rsrvStr3,jdbcType=VARCHAR},
+            </if>
+            <if test="rsrvStr4 != null" >
+                rsrv_str4 = #{rsrvStr4,jdbcType=VARCHAR},
+            </if>
+            <if test="rsrvStr5 != null" >
+                rsrv_str5 = #{rsrvStr5,jdbcType=CHAR},
+            </if>
+            <if test="rsrvStr6 != null" >
+                rsrv_str6 = #{rsrvStr6,jdbcType=CHAR},
+            </if>
+            <if test="rsrvStr7 != null" >
+                rsrv_str7 = #{rsrvStr7,jdbcType=CHAR},
+            </if>
+            <if test="rsrvStr8 != null" >
+                rsrv_str8 = #{rsrvStr8,jdbcType=CHAR},
+            </if>
+            <if test="rsrvStr9 != null" >
+                rsrv_str9 = #{rsrvStr9,jdbcType=VARCHAR},
+            </if>
+            <if test="rsrvStr0 != null" >
+                rsrv_str0 = #{rsrvStr0,jdbcType=VARCHAR},
+            </if>
+            <if test="inStaffId != null" >
+                in_staff_id = #{inStaffId,jdbcType=VARCHAR},
+            </if>
+            <if test="inDate != null" >
+                in_date = #{inDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null" >
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where module_id = #{moduleId,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.ace.smart.entity.TsModuleinfo" >
+        update ts_moduleinfo
+        set module_name = #{moduleName,jdbcType=VARCHAR},
+            module_file = #{moduleFile,jdbcType=VARCHAR},
+            module_dir = #{moduleDir,jdbcType=VARCHAR},
+            module_type = #{moduleType,jdbcType=CHAR},
+            rsrv_str1 = #{rsrvStr1,jdbcType=VARCHAR},
+            rsrv_str2 = #{rsrvStr2,jdbcType=VARCHAR},
+            rsrv_str3 = #{rsrvStr3,jdbcType=VARCHAR},
+            rsrv_str4 = #{rsrvStr4,jdbcType=VARCHAR},
+            rsrv_str5 = #{rsrvStr5,jdbcType=CHAR},
+            rsrv_str6 = #{rsrvStr6,jdbcType=CHAR},
+            rsrv_str7 = #{rsrvStr7,jdbcType=CHAR},
+            rsrv_str8 = #{rsrvStr8,jdbcType=CHAR},
+            rsrv_str9 = #{rsrvStr9,jdbcType=VARCHAR},
+            rsrv_str0 = #{rsrvStr0,jdbcType=VARCHAR},
+            in_staff_id = #{inStaffId,jdbcType=VARCHAR},
+            in_date = #{inDate,jdbcType=TIMESTAMP},
+            remark = #{remark,jdbcType=VARCHAR}
+        where module_id = #{moduleId,jdbcType=VARCHAR}
+    </update>
+</mapper>

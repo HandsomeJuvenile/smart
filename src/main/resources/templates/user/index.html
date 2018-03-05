@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta charset="utf-8" />
+    <title>Tables - Ace Admin</title>
+
+    <meta name="description" content="Static &amp; Dynamic Tables" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/font-awesome/4.5.0/css/font-awesome.min.css}" />
+
+    <!-- page specific plugin styles -->
+
+    <!-- text fonts -->
+    <link rel="stylesheet" th:href="@{/assets/css/fonts.googleapis.com.css}" />
+
+    <!-- ace styles -->
+    <link rel="stylesheet" th:href="@{/assets/css/ace.min.css}" class="ace-main-stylesheet" id="main-ace-style" />
+
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" th:href="@{/assets/css/ace-part2.min.css}" class="ace-main-stylesheet" />
+    <![endif]-->
+    <link rel="stylesheet" th:href="@{/assets/css/ace-skins.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/css/ace-rtl.min.css}" />
+
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" th:href="@{/assets/css/ace-ie.min.css}" />
+    <![endif]-->
+
+    <!-- inline styles related to this page -->
+
+    <!-- ace settings handler -->
+    <script th:src="@{/assets/js/ace-extra.min.js}"></script>
+
+    <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+
+    <!--[if lte IE 8]>
+    <script src="assets/js/html5shiv.min.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body class="no-skin">
+<div class="main-container ace-save-state" id="main-container">
+    <div class="main-content">
+        <div class="main-content-inner">
+            <div class="page-content">
+                <div class="page-header">
+                    <h1>
+                        用户管理
+                        <small>
+                            <i class="ace-icon fa fa-angle-double-right"></i>
+                            用户
+                        </small>
+                    </h1> <br/>
+
+                    <button class="btn btn-white btn-info btn-bold" id="createUser">
+                    <i class="ace-icon fa fa-floppy-o bigger-120 blue"></i>
+                        添加
+                    </button>
+                    <button class="btn btn-white btn-warning btn-bold" id="pDelete">
+                        <i class="ace-icon fa fa-trash-o bigger-120 orange"></i>
+                        批量删除
+                    </button>
+
+                </div><!-- /.page-header -->
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <table id="simple-table" class="table  table-bordered table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th class="center">
+                                            <label class="pos-rel">
+                                                <input type="checkbox" class="ace" />
+                                                <span class="lbl"></span>
+                                            </label>
+                                        </th>
+                                        <th class="detail-col">Details</th>
+                                        <th>登录名</th>
+                                        <th>角色</th>
+                                        <th>邮箱</th>
+                                        <th>手机</th>
+
+                                        <th>
+                                            <i class="ace-icon fa fa-clock-o bigger-80 hidden-480"></i>
+                                            上次登录时间
+                                        </th>
+                                        <th class="hidden-480">状态</th>
+
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody th:each="pUser,userStat:${pageInfos.list}">
+                                    <tr  >
+                                        <td class="center">
+                                            <label class="pos-rel">
+                                                <input type="checkbox" class="ace" name="checks" th:value="${pUser.id}"/>
+                                                <span class="lbl"></span>
+                                            </label>
+                                        </td>
+
+                                        <td class="center">
+                                            <div class="action-buttons">
+                                                <a href="#" class="green bigger-140 show-details-btn" title="Show Details">
+                                                    <i class="ace-icon fa fa-angle-double-down"></i>
+                                                    <span class="sr-only" >Details</span>
+                                                </a>
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <a href="#" th:text="${pUser.userLoginName}">ace.com</a>
+                                        </td>
+                                        <td th:text="${pUser.rName}">$45</td>
+                                        <td class="hidden-480" th:text="${pUser.email}">3,330</td>
+                                        <td th:text="${pUser.phone}">Feb 12</td>
+                                        <td th:text="${pUser.lastLoginTime}">Feb 12</td>
+                                        <td class="hidden-480">
+                                            <span class="label label-sm label-warning" th:text="${pUser.status}">Expiring</span>
+                                        </td>
+
+                                        <td>
+                                            <div class="hidden-sm hidden-xs btn-group">
+                                                <button class="btn btn-xs btn-info" th:value="${pUser.id}" name="updateUser">
+                                                    <i class="ace-icon fa fa-pencil bigger-120"></i>
+                                                </button>
+
+                                                <button class="btn btn-xs btn-danger" th:value="${pUser.id}" name="deleteUser">
+                                                    <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                                </button>
+
+                                                <button class="btn btn-xs btn-warning">
+                                                    <i class="ace-icon fa fa-flag bigger-120"></i>
+                                                </button>
+                                            </div>
+
+                                            <div class="hidden-md hidden-lg">
+                                                <div class="inline pos-rel">
+                                                    <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                                        <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
+                                                    </button>
+
+                                                    <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                                                        <li>
+                                                            <a href="#" class="tooltip-info" data-rel="tooltip" title="View">
+																			<span class="blue">
+																				<i class="ace-icon fa fa-search-plus bigger-120"></i>
+																			</span>
+                                                            </a>
+                                                        </li>
+
+                                                        <li>
+                                                            <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
+																			<span class="green">
+																				<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+																			</span>
+                                                            </a>
+                                                        </li>
+
+                                                        <li>
+                                                            <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
+																			<span class="red">
+																				<i class="ace-icon fa fa-trash-o bigger-120"></i>
+																			</span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="detail-row">
+                                        <td colspan="8">
+                                            <div class="table-detail">
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-2">
+                                                        <div class="text-center">
+                                                            <img height="150" class="thumbnail inline no-margin-bottom" alt="Domain Owner's Avatar" th:src="@{/assets/images/avatars/profile-pic.jpg}" />
+                                                            <br />
+                                                            <div class="width-80 label label-info label-xlg arrowed-in arrowed-in-right">
+                                                                <div class="inline position-relative">
+                                                                    <a class="user-title-label" href="#">
+                                                                        <i class="ace-icon fa fa-circle light-green"></i>
+                                                                        &nbsp;
+                                                                        <span class="white">Alex M. Doe</span>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-xs-12 col-sm-7">
+                                                        <div class="space visible-xs"></div>
+
+                                                        <div class="profile-user-info profile-user-info-striped">
+                                                            <div class="profile-info-row">
+                                                                <div class="profile-info-name"> Username </div>
+
+                                                                <div class="profile-info-value">
+                                                                    <span th:text="${pUser.nickname}">alexdoe</span>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="profile-info-row">
+                                                                <div class="profile-info-name"> Location </div>
+
+                                                                <div class="profile-info-value">
+                                                                    <i class="fa fa-map-marker light-orange bigger-110"></i>
+                                                                    <span th:text="${pUser.uAddress}">Netherlands, Amsterdam</span>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="profile-info-row">
+                                                                <div class="profile-info-name"> Age </div>
+
+                                                                <div class="profile-info-value">
+                                                                    <span th:text="${pUser.uAge}">38</span>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="profile-info-row">
+                                                                <div class="profile-info-name"> Joined </div>
+
+                                                                <div class="profile-info-value">
+                                                                    <span th:text="${pUser.createTime}">2010/06/20</span>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="profile-info-row">
+                                                                <div class="profile-info-name"> Last Online </div>
+
+                                                                <div class="profile-info-value">
+                                                                    <span th:text="${pUser.lastLoginTime}">3 hours ago</span>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="profile-info-row">
+                                                                <div class="profile-info-name" > About Me </div>
+
+                                                                <div class="profile-info-value">
+                                                                    <span th:text="${pUser.selfIntroduction}">Bio</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-xs-12 col-sm-3">
+                                                        <div class="space visible-xs"></div>
+                                                        <h4 class="header blue lighter less-margin" th:text="${pUser.userLoginName}"></h4>
+
+                                                        <div class="space-6"></div>
+
+                                                        <form>
+                                                            <fieldset>
+                                                                <textarea class="width-100" resize="none" placeholder="Type something…"></textarea>
+                                                            </fieldset>
+
+                                                            <div class="hr hr-dotted"></div>
+
+                                                            <div class="clearfix">
+                                                                <label class="pull-left">
+                                                                    <input type="checkbox" class="ace" />
+                                                                    <span class="lbl"> Email me a copy</span>
+                                                                </label>
+
+                                                                <button class="pull-right btn btn-sm btn-primary btn-white btn-round" type="button">
+                                                                    Submit
+                                                                    <i class="ace-icon fa fa-arrow-right icon-on-right bigger-110"></i>
+                                                                </button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <h1>
+                                <ul class="pagination pagination-lg" style="float: right">
+                                    <li class="disabled"  th:if="${pageInfos.isFirstPage}">
+                                    <a href="javaScript:void(0);" th:href="@{/Sys/user/show?currentPage=1}">首页</a>
+                                    </li>
+                                    <li th:unless="${pageInfos.isFirstPage}">
+                                        <a href="#" th:href="@{/Sys/user/show?currentPage=1}">首页</a>
+                                    </li>
+                                    <li  th:if="${pageInfos.hasPreviousPage}">
+                                        <a href="#" th:href="@{'/Sys/user/show?currentPage='+${pageInfos.prePage}}">上一页</a>
+                                    </li>
+                                    <li class="disabled" th:unless="${pageInfos.hasPreviousPage}">
+                                        <a href="#" th:href="@{'/Sys/user/show?currentPage='+${pageInfos.prePage}}">上一页</a>
+                                    </li>
+                                    <li><a href="#" th:if="${pageInfos.pageNum}>0" th:text="${pageInfos.pageNum}"></a></li>
+                                    <li  th:if="${pageInfos.hasNextPage}">
+                                        <a href="#" th:href="@{'/Sys/user/show?currentPage='+${pageInfos.nextPage}}">下一页</a>
+                                    </li>
+                                    <li class="disabled" th:unless="${pageInfos.hasNextPage}">
+                                        <a href="#" th:href="@{'/Sys/user/show?currentPage='+${pageInfos.nextPage}}">下一页</a>
+                                    </li>
+                                    <li class="disabled"  th:if="${pageInfos.isLastPage}">
+                                        <a href="#" th:href="@{'/Sys/user/show?currentPage='+${pageInfos.pages}}">尾页</a>
+                                    </li>
+                                    <li th:unless="${pageInfos.isLastPage}">
+                                        <a href="#" th:href="@{'/Sys/user/show?currentPage='+${pageInfos.pages}}">尾页</a>
+                                    </li>
+                                </ul>
+                                </h1>
+                            </div><!-- /.span -->
+                        </div><!-- /.row -->
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+
+
+</div><!-- /.main-container -->
+
+<!--[if !IE]> -->
+<!-- <![endif]-->
+<script th:src="@{/assets/js/jquery-2.1.4.min.js}"></script>
+
+<!--[if IE]>
+<script th:src="@{/assets/js/jquery-1.11.3.min.js}"></script>
+<![endif]-->
+<!--<script type="text/javascript">
+    if('ontouchstart' in document.documentElement) document.write("<script th:src='@{/assets/js/jquery.mobile.custom.min.js}'>"+"<"+"/script>");
+</script>-->
+<script th:src="@{/assets/js/bootstrap.min.js}"></script>
+
+<!-- page specific plugin scripts -->
+<script th:src="@{/assets/js/jquery.dataTables.min.js}"></script>
+<script th:src="@{/assets/js/jquery.dataTables.bootstrap.min.js}"></script>
+<script th:src="@{/assets/js/dataTables.buttons.min.js}"></script>
+<script th:src="@{/assets/js/buttons.flash.min.js}"></script>
+<script th:src="@{/assets/js/buttons.html5.min.js}"></script>
+<script th:src="@{/assets/js/buttons.print.min.js}"></script>
+<script th:src="@{/assets/js/buttons.colVis.min.js}"></script>
+<script th:src="@{/assets/js/dataTables.select.min.js}"></script>
+<!-- ace scripts -->
+<script th:src="@{/assets/js/ace-elements.min.js}"></script>
+<script th:src="@{/assets/js/ace.min.js}"></script>
+
+<script type="text/javascript">
+    jQuery(function($) {
+        //initiate dataTables plugin
+        var myTable =
+            $('#dynamic-table')
+            //.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
+                .DataTable( {
+                    bAutoWidth: false,
+                    "aoColumns": [
+                        { "bSortable": false },
+                        null, null,null, null, null,
+                        { "bSortable": false }
+                    ],
+                    "aaSorting": [],
+                    //"bProcessing": true,
+                    //"bServerSide": true,
+                    //"sAjaxSource": "http://127.0.0.1/table.php"	,
+
+                    //,
+                    //"sScrollY": "200px",
+                    //"bPaginate": false,
+
+                    //"sScrollX": "100%",
+                    //"sScrollXInner": "120%",
+                    //"bScrollCollapse": true,
+                    //Note: if you are applying horizontal scrolling (sScrollX) on a ".table-bordered"
+                    //you may want to wrap the table inside a "div.dataTables_borderWrap" element
+
+                    //"iDisplayLength": 50
+
+
+                    select: {
+                        style: 'multi'
+                    }
+                } );
+
+
+
+        $.fn.dataTable.Buttons.defaults.dom.container.className = 'dt-buttons btn-overlap btn-group btn-overlap';
+
+
+
+        //style the message box
+        var defaultCopyAction = myTable.button(1).action();
+        myTable.button(1).action(function (e, dt, button, config) {
+            defaultCopyAction(e, dt, button, config);
+            $('.dt-button-info').addClass('gritter-item-wrapper gritter-info gritter-center white');
+        });
+
+
+        var defaultColvisAction = myTable.button(0).action();
+        myTable.button(0).action(function (e, dt, button, config) {
+
+            defaultColvisAction(e, dt, button, config);
+
+
+            if($('.dt-button-collection > .dropdown-menu').length == 0) {
+                $('.dt-button-collection')
+                    .wrapInner('<ul class="dropdown-menu dropdown-light dropdown-caret dropdown-caret" />')
+                    .find('a').attr('href', '#').wrap("<li />")
+            }
+            $('.dt-button-collection').appendTo('.tableTools-container .dt-buttons')
+        });
+
+        ////
+
+        setTimeout(function() {
+            $($('.tableTools-container')).find('a.dt-button').each(function() {
+                var div = $(this).find(' > div').first();
+                if(div.length == 1) div.tooltip({container: 'body', title: div.parent().text()});
+                else $(this).tooltip({container: 'body', title: $(this).text()});
+            });
+        }, 500);
+
+
+
+
+
+        myTable.on( 'select', function ( e, dt, type, index ) {
+            if ( type === 'row' ) {
+                $( myTable.row( index ).node() ).find('input:checkbox').prop('checked', true);
+            }
+        } );
+        myTable.on( 'deselect', function ( e, dt, type, index ) {
+            if ( type === 'row' ) {
+                $( myTable.row( index ).node() ).find('input:checkbox').prop('checked', false);
+            }
+        } );
+
+
+
+
+        /////////////////////////////////
+        //table checkboxes
+        $('th input[type=checkbox], td input[type=checkbox]').prop('checked', false);
+
+        //select/deselect all rows according to table header checkbox
+        $('#dynamic-table > thead > tr > th input[type=checkbox], #dynamic-table_wrapper input[type=checkbox]').eq(0).on('click', function(){
+            var th_checked = this.checked;//checkbox inside "TH" table header
+
+            $('#dynamic-table').find('tbody > tr').each(function(){
+                var row = this;
+                if(th_checked) myTable.row(row).select();
+                else  myTable.row(row).deselect();
+            });
+        });
+
+        //select/deselect a row when the checkbox is checked/unchecked
+        $('#dynamic-table').on('click', 'td input[type=checkbox]' , function(){
+            var row = $(this).closest('tr').get(0);
+            if(this.checked) myTable.row(row).deselect();
+            else myTable.row(row).select();
+        });
+
+
+
+        $(document).on('click', '#dynamic-table .dropdown-toggle', function(e) {
+            e.stopImmediatePropagation();
+            e.stopPropagation();
+            e.preventDefault();
+        });
+
+
+
+        //And for the first simple table, which doesn't have TableTools or dataTables
+        //select/deselect all rows according to table header checkbox
+        var active_class = 'active';
+        $('#simple-table > thead > tr > th input[type=checkbox]').eq(0).on('click', function(){
+            var th_checked = this.checked;//checkbox inside "TH" table header
+
+            $(this).closest('table').find('tbody > tr').each(function(){
+                var row = this;
+                if(th_checked) $(row).addClass(active_class).find('input[type=checkbox]').eq(0).prop('checked', true);
+                else $(row).removeClass(active_class).find('input[type=checkbox]').eq(0).prop('checked', false);
+            });
+        });
+
+        //select/deselect a row when the checkbox is checked/unchecked
+        $('#simple-table').on('click', 'td input[type=checkbox]' , function(){
+            var $row = $(this).closest('tr');
+            if($row.is('.detail-row ')) return;
+            if(this.checked) $row.addClass(active_class);
+            else $row.removeClass(active_class);
+        });
+
+
+
+        /********************************/
+        //add tooltip for small view action buttons in dropdown menu
+        $('[data-rel="tooltip"]').tooltip({placement: tooltip_placement});
+
+        //tooltip placement on right or left
+        function tooltip_placement(context, source) {
+            var $source = $(source);
+            var $parent = $source.closest('table')
+            var off1 = $parent.offset();
+            var w1 = $parent.width();
+
+            var off2 = $source.offset();
+            //var w2 = $source.width();
+            /*<![CDATA[*/
+            if( parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2) ) return 'right';
+            /*]]>*/
+            return 'left';
+        }
+
+
+
+
+        /***************/
+        $('.show-details-btn').on('click', function(e) {
+            e.preventDefault();
+            $(this).closest('tr').next().toggleClass('open');
+            $(this).find(ace.vars['.icon']).toggleClass('fa-angle-double-down').toggleClass('fa-angle-double-up');
+        });
+        /***************/
+
+
+
+
+
+        /**
+         //add horizontal scrollbars to a simple table
+         $('#simple-table').css({'width':'2000px', 'max-width': 'none'}).wrap('<div style="width: 1000px;" />').parent().ace_scroll(
+         {
+           horizontal: true,
+           styleClass: 'scroll-top scroll-dark scroll-visible',//show the scrollbars on top(default is bottom)
+           size: 2000,
+           mouseWheelLock: true
+         }
+         ).css('padding-top', '12px');
+         */
+
+        $("#createUser").click(function(){
+            window.location.href = "/Sys/user/toCreate";
+        });
+
+        $("[name='updateUser']").click(function(){
+            var update = this.value;
+            window.location.href = "/Sys/user/toUpdate/"+update;
+        });
+
+        $("[name='deleteUser']").click(function(){
+            var  id = this.value;
+            $.ajax({
+                type:'post',
+                url:'/Sys/user/delete',
+                data:{id:id},
+                success:function(data){
+                    if(data=='true'){
+                        return false;
+                    }
+                    if(data == 'false'){
+                        alert("删除失败!");
+                        return false;
+                    }
+                    window.location.reload();
+                },
+                error:function(){
+                    alert("删除失败!");
+                }
+            });
+        })
+
+        $("#pDelete").click(function(){
+            var arr=[];
+            $("input[name='checks']:checked").each(function(){
+                arr.push(this.value);
+            })
+            if(arr.length == 0){
+                alert("请选择要删除的用户!");
+                return false;
+            }
+            var json = arr.join(',');
+            $.ajax({
+                type:'post',
+                url:'/Sys/user/batchDelete',
+                data:{id:json},
+                success:function(data){
+                    window.location.reload();
+                },
+                error:function(){
+                    alert("删除失败!");
+                }
+            });
+        });
+
+    })
+</script>
+</body>
+</html>
