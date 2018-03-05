@@ -1,5 +1,6 @@
 package com.ace.smart.controller;
 
+import com.ace.smart.annotation.service.RowNameService;
 import com.ace.smart.entity.PUser;
 import com.ace.smart.excel.ExportExcel;
 import com.ace.smart.excel.entity.ExcelData;
@@ -31,24 +32,15 @@ public class ExcelController {
     public void excel(HttpServletResponse response) throws Exception {
         ExcelData data = new ExcelData();
         data.setName("用户");
-        List<String> titles = new ArrayList();
-        titles.add("用户名");
-        titles.add("真实姓名");
-        titles.add("年龄");
-        titles.add("住址");
-        titles.add("邮箱");
-        titles.add("手机号");
-        titles.add("创建时间");
-        titles.add("自我介绍");
-        data.setTitles(titles);
+        data.setTitles(RowNameService.load(PUser.class));
         List<PUser> pUsersList =  pUserService.selectAll(0,100).getList();
         List<List<Object>> rows = new ArrayList();
         for (PUser pUser:pUsersList) {
             List<Object> row = new ArrayList();
             row.add(pUser.getUserLoginName());
             row.add(pUser.getNickname());
-            row.add(pUser.getuAge());
-            row.add(pUser.getuAddress());
+            row.add(pUser.getUAge());
+            row.add(pUser.getUAddress());
             row.add(pUser.getEmail());
             row.add(pUser.getPhone());
             row.add(pUser.getCreateTime());
@@ -58,7 +50,9 @@ public class ExcelController {
         data.setRows(rows);
         String fileName = System.currentTimeMillis()+".xlsx";
         ExportExcel.exportExcel(response,fileName,data);
-        LOGGER.info("用户excel导出成功"+fileName);
+        if (LOGGER.isInfoEnabled()){
+            LOGGER.info("用户excel导出成功"+fileName);
+        }
     }
 
 }
