@@ -57,7 +57,10 @@
                             用户
                         </small>
                     </h1> <br/>
-
+                        <button class="btn btn-white btn-info btn-bold" id="export">
+						    <i class="ace-icon fa fa-floppy-o bigger-120 blue"></i>
+							    导出excel文件
+					    </button>
                     <button class="btn btn-white btn-info btn-bold" id="createUser">
                     <i class="ace-icon fa fa-floppy-o bigger-120 blue"></i>
                         添加
@@ -554,7 +557,7 @@
         });
 
         $("[name='deleteUser']").click(function(){
-            var  id = this.value;
+            var id = this.value;
             $.ajax({
                 type:'post',
                 url:'/Sys/user/delete',
@@ -574,6 +577,11 @@
                 }
             });
         })
+
+        $("#export").click(function(){
+            location.href="/userExcel";
+            <!--这里不能用ajax请求，ajax请求无法弹出下载保存对话框-->
+        });
 
         $("#pDelete").click(function(){
             var arr=[];

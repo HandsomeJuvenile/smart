@@ -28,7 +28,7 @@ public class ExcelController {
      * @param response
      * @throws Exception
      */
-    @RequestMapping(value = "/excel", method = RequestMethod.GET)
+    @RequestMapping(value = "/userExcel", method = RequestMethod.GET)
     public void excel(HttpServletResponse response) throws Exception {
         ExcelData data = new ExcelData();
         data.setName("用户");
