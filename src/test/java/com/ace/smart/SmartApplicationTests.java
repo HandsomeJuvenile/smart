@@ -233,7 +233,7 @@ public class SmartApplicationTests {
 
 	@Test
 	public void sendSimpleMail() throws Exception {
-		String [] strings = {"18356090837@163.com"};
+		String [] strings = {""};
 		String content = "<p>您好 O(∩_∩)O~~<br><br>欢迎加入Ace !<br/><br/>帐户需要激活才能使用，" +
 				"赶紧激活成为Ace正式的一员吧:)<br/><br/>请在24小时内输入下面的激活码立即激活帐户:1234";
 		Email email = new Email();
@@ -281,7 +281,7 @@ public class SmartApplicationTests {
 			String process =templateEngine.process("christmas",context);
 			helper.setFrom(Sender);
 			helper.setSubject("发送happy");
-			helper.setTo("zhuzhenzhen@ofo.com");
+			helper.setTo("");
 			helper.setText(process,true);
 			FileSystemResource fileSystemResource = new FileSystemResource(new File("src/main/resources/static/assets/images/gallery/image-2.jpg"));
 			helper.addAttachment("pic.jpg",fileSystemResource);
@@ -293,7 +293,7 @@ public class SmartApplicationTests {
 
 	@Test
 	public void set() throws MessagingException {
-		String [] strings = {"18356090837@163.com","595186151@qq.com"};
+		String [] strings = {""};
 		Email email = new Email();
 		email.setImgPath("/static/img/blackwaitwhite.png");
 		email.setRecives(strings);
@@ -323,7 +323,7 @@ public class SmartApplicationTests {
 	public void testJumpHeper(){
 		JumpHelper jumpHelper = new JumpHelper();
 		try {
-			int[] result = jumpHelper.getHalmaAndBoardXYValue(new File("C:\\Users\\Administrator\\Documents\\Tencent Files\\1414790478\\FileRecv\\MobileFile\\current2.png"));
+			int[] result = jumpHelper.getHalmaAndBoardXYValue(new File("C:\\Users\\Administrator\\Documents\\Tencent Files\\\\FileRecv\\MobileFile\\current2.png"));
 			System.out.println();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -333,7 +333,7 @@ public class SmartApplicationTests {
 
 	@Test
 	public void removePic() throws IOException {
-		StringBuilder sb = new StringBuilder("C:\\Users\\Administrator\\Documents\\Tencent Files\\1414790478\\FileRecv\\");
+		StringBuilder sb = new StringBuilder("C:\\Users\\Administrator\\Documents\\Tencent Files\\\\FileRecv\\");
 		sb.append(DateUtil.getPicCurrentDay());
 		sb.append(".png");
 		File file = new File(sb.toString()); // 源文件
