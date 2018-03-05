@@ -73,10 +73,9 @@ public class EmailTimmer {
     public  void setTimerTejiEmail() throws MessagingException{
         Email email = new Email();
         String [] strings1 = {"18356090837@163.com"};
-        StringBuilder imgPath = new StringBuilder("/static/img/");
+        String imgPath = "/static/img/ACE特辑.png";
         File file = new File("/static/img/ACE特辑.png");
-        imgPath.append("ACE特辑.png");
-        email.setImgPath(imgPath.toString());
+        email.setImgPath(imgPath);
         email.setSubject("私人订制—ACE特辑");
         for (String revice:strings1) {
             try {
