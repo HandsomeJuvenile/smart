@@ -47,8 +47,8 @@ public class ExcelController {
             List<Object> row = new ArrayList();
             row.add(pUser.getUserLoginName());
             row.add(pUser.getNickname());
-            row.add(pUser.getAge());
-            row.add(pUser.getAddress());
+            row.add(pUser.getuAge());
+            row.add(pUser.getuAddress());
             row.add(pUser.getEmail());
             row.add(pUser.getPhone());
             row.add(pUser.getCreateTime());

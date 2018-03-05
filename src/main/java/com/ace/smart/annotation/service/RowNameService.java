@@ -59,7 +59,7 @@ public class RowNameService {
         pUser.setCreateTime("2017-08-20");
         pUser.setId(1654651465165466l);
         pUser.setSelfIntroduction("HELLO");
-        pUser.setAddress("wuhu");
+        pUser.setuAddress("wuhu");
         list.add(pUser);
         try {
             load(PUser.class,list);

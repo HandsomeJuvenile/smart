@@ -11,7 +11,7 @@ import com.ace.smart.service.PUserService;
 import com.ace.smart.service.UUserRoleService;
 import com.ace.smart.util.CollectionUtil;
 import com.ace.smart.util.IdGen;
-import com.example.smart.entity.*;
+import com.ace.smart.entity.*;
 import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

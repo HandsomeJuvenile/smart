@@ -43,9 +43,9 @@ public class PUser {
     @RowName(name="邮箱")
     private String email;
     @RowName(name="年龄")
-    private Integer age;
+    private Integer uAge;
     @RowName(name="住址")
-    private String address;
+    private String uAddress;
     @RowName(name="手机号")
     private String phone;
 
@@ -126,20 +126,20 @@ public class PUser {
         this.email = email;
     }
 
-    public Integer getAge() {
-        return age;
+    public Integer getuAge() {
+        return uAge;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setuAge(Integer uAge) {
+        this.uAge = uAge;
     }
 
-    public String getAddress() {
-        return address;
+    public String getuAddress() {
+        return uAddress;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setuAddress(String uAddress) {
+        this.uAddress = uAddress;
     }
 
     public String getPhone() {

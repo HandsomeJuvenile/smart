@@ -10,11 +10,11 @@ import com.ace.smart.service.PUserService;
 import com.ace.smart.serviceimpl.*;
 import com.ace.smart.util.IdGen;
 import com.ace.smart.util.PasswordUtil;
-import com.example.smart.entity.*;
+import com.ace.smart.entity.*;
 import com.ace.smart.page.LeavePage;
 import com.ace.smart.service.PPermissionService;
 import com.ace.smart.service.PRolePermissionService;
-import com.example.smart.serviceimpl.*;
+import com.ace.smart.serviceimpl.*;
 import com.ace.smart.util.DateUtil;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
@@ -128,8 +128,8 @@ public class SmartApplicationTests {
 		uUser.setPhone("1214138");
 		uUser.setSelfIntroduction("傻得三笔");
 		uUser.setStatus("1");
-		uUser.setAddress("安庆");
-		uUser.setAge(58);
+		uUser.setuAddress("安庆");
+		uUser.setuAge(58);
 		uUser.setUserLoginName("sansha");
 		uUser.setPswd(PasswordUtil.encryptPassword(id+"","111111"));
 		try{
