@@ -126,19 +126,19 @@ public class PUser {
         this.email = email;
     }
 
-    public Integer getuAge() {
+    public Integer getUAge() {
         return uAge;
     }
 
-    public void setuAge(Integer uAge) {
+    public void setUAge(Integer uAge) {
         this.uAge = uAge;
     }
 
-    public String getuAddress() {
+    public String getUAddress() {
         return uAddress;
     }
 
-    public void setuAddress(String uAddress) {
+    public void setUAddress(String uAddress) {
         this.uAddress = uAddress;
     }
 
