@@ -68,19 +68,28 @@
             <input type="email" name="token" lay-verify="required" required="required" placeholder="请输入验证码" autocomplete="off" class="layui-input samll"/>
         </div>
     </div>
+    <input type="hidden" id="uAdress" name="uAdress" th:value="${pUser.uAddress}" />
     <div class="layui-form-item">
-        <label class="layui-form-label">地址</label>
-        <div class="layui-input-block samll">
-            <select name="uAddress" lay-verify="required">
-                <option value=""></option>
-                <option value="0" th:selected="${pUser.uAddress == '0'}">北京</option>
-                <option value="1" th:selected="${pUser.uAddress == '1'}">上海</option>
-                <option value="2" th:selected="${pUser.uAddress == '2'}">广州</option>
-                <option value="3" th:selected="${pUser.uAddress == '3'}">深圳</option>
-                <option value="4" th:selected="${pUser.uAddress == '4'}">杭州</option>
-            </select>
-        </div>
-    </div>
+            <label class="layui-form-label">选择地区</label>
+               <div class="layui-input-inline">
+                 <select name="provid" id="provid" lay-filter="provid">
+                     <option value="">请选择省</option>
+                 </select>
+               </div>
+               <div class="layui-input-inline">
+                   <select name="cityid" id="cityid" lay-filter="cityid">
+                      <option value="">请选择市</option>
+                   </select>
+               </div>
+               <div class="layui-input-inline">
+                   <select name="areaid" id="areaid" lay-filter="areaid">
+                      <option value="">请选择县/区</option>
+                   </select>
+               </div>
+               <div class="layui-input-inline">
+                   <input type="text" name="address" id="address"  placeholder="请输入详细地址" autocomplete="off" class="layui-input"/>
+               </div>
+          </div>
     <div class="layui-form-item layui-form-text">
         <label class="layui-form-label ">自我介绍</label>
         <div class="layui-input-block">
@@ -98,5 +107,18 @@
 <script th:src="@{/layui/layui.js}"></script>
 <script th:src="@{/jQuery/jquery-3.0.0.min.js}"></script>
 <script th:src="@{/user/update.js}"></script>
+<script th:src="@{/area/data.js}"></script>
+<script th:src="@{/area/province.js}"></script>
+<script type="text/javascript">
+   var defaults = {
+      s1: 'provid',
+      s2: 'cityid',
+      s3: 'areaid',
+      v1: null,
+      v2: null,
+      v3: null
+};
+
+    </script>
 </body>
 </html>

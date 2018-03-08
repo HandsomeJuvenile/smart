@@ -8,10 +8,13 @@ layui.use('form', function() {
 
     form.on('submit(userForm)', function (data) {
         var datas = data.field;
+        var uAddress = datas.provid+"-"+datas.cityid+"-"+datas.areaid+"-"+datas.address;
+        var dataStr = {id:datas.id,userLoginName:datas.userLoginName,nickname:datas.nickname,pswd:datas.pswd,rId:datas.rId,uAge:datas.uAge,
+            phone:datas.phone,email:datas.email,uAddress:uAddress,selfIntroduction:datas.selfIntroduction};
         $.ajax({
             type:'post',
             url:'/Sys/user/update',
-            data:JSON.stringify(datas),
+            data:JSON.stringify(dataStr),
             cache:false,
             async:false,
             dataType:'json',

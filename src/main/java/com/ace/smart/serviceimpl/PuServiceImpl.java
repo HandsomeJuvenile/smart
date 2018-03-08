@@ -12,6 +12,7 @@ import com.ace.smart.util.IdGen;
 import com.ace.smart.util.PasswordUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.util.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -168,9 +169,7 @@ public class PuServiceImpl implements PUserService {
      */
     @Override
     public String validationUpdate(PUserVo pUser){
-        if(pUser == null){
-            throw new RuntimeException("对象为空");
-        }
+        Assert.notNull(pUser,"PUser is null");
         PUser user = selectByLoginName(pUser.getUserLoginName());
         boolean flag = true;
         Map<String,Object> userMap = new HashMap<String ,Object>();
@@ -182,7 +181,7 @@ public class PuServiceImpl implements PUserService {
                 return "2";
             }
         }
-        if(!pUser.getToken().equals(user.getEmail())){
+       /* if(!pUser.getToken().equals(user.getEmail())){
             EmailContainer emailContainer = EmailContainer.getInstance();
             Map<String,String> emailMap = emailContainer.getEmailMap();
             if(emailMap.get(pUser.getEmail())!=null){
@@ -195,7 +194,7 @@ public class PuServiceImpl implements PUserService {
             }else{
                 return "5";
             }
-        }
+        }*/
         return "true";
     }
 
