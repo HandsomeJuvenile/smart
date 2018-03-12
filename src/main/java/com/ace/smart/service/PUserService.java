@@ -31,4 +31,6 @@ public interface PUserService {
     String validationUpdate(PUserVo pUser);
 
     PUser selectByLoginName(String userLoginName);
+
+    int updatePass(Map map);
 }

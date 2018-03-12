@@ -29,4 +29,6 @@ public interface PUserMapper {
     List<PUser> selectByIf(Map<String,Object> map);
 
     PUser selectByLoginName(String userLoginName);
+
+    int updatePass(Map map);
 }

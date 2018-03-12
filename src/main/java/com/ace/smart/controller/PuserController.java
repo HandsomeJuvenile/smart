@@ -2,16 +2,15 @@ package com.ace.smart.controller;
 
 import com.ace.smart.container.EmailContainer;
 import com.ace.smart.email.SendEmail;
-import com.ace.smart.entity.Email;
-import com.ace.smart.entity.PRole;
-import com.ace.smart.entity.PUser;
-import com.ace.smart.entity.PUserVo;
+import com.ace.smart.entity.*;
 import com.ace.smart.mapper.PRoleMapper;
 import com.ace.smart.service.PUserService;
 import com.ace.smart.service.UUserRoleService;
 import com.ace.smart.util.CollectionUtil;
 import com.ace.smart.util.IdGen;
-import com.ace.smart.entity.*;
+import com.ace.smart.util.PasswordUtil;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +22,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -172,4 +172,41 @@ public class PuserController {
             return "nodata";
         }
 
+    /**
+     * 修改密码
+     * 0：原密码有误
+     * 1：修改成功
+     * 2：修改错误
+     * 3: 系统错误
+     * @param uId
+     * @param oldPassword
+     * @param newPassword
+     * @return
+     */
+       @ResponseBody
+       @RequestMapping("/updatePass")
+       @JsonSerialize(using = ToStringSerializer.class)
+       public ReturnMessage updatePass(@RequestParam("uId") String uId,String oldPassword,String newPassword){
+            PUser pUser;
+            Long uLId = Long.parseLong(uId);
+            ReturnMessage message = new ReturnMessage();
+            if(uLId!=null){
+                pUser = pUserService.selectByPrimaryKey(uLId);
+                if(!pUser.getPswd().equals(PasswordUtil.encryptPassword(uLId+"",oldPassword))){
+                    message.setName("0");
+                    return message;
+                }
+                Map<String,Object> map = new HashMap<String,Object>();
+                map.put("id",uLId);
+                map.put("newPassword",PasswordUtil.encryptPassword(uLId+"",newPassword));
+                int affect = pUserService.updatePass(map);
+                if(affect > 0){
+                    message.setName("1");
+                }else{
+                    message.setName("2");
+                }
+                return message;
+            }
+            return message;
+       }
 }

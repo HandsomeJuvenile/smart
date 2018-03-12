@@ -207,4 +207,13 @@ public class PuServiceImpl implements PUserService {
     public PUser selectByLoginName(String userLoginName) {
         return (userLoginName!=null&&!"".equals(userLoginName))?pUserMapper.selectByLoginName(userLoginName):new PUser();
     }
+
+    @Override
+    public int updatePass(Map map) {
+        Assert.notNull(map,"map is not null");
+        if(map.containsKey("id") && map.get("id")!=null){
+            return pUserMapper.updatePass(map);
+        }
+        return 0;
+    }
 }

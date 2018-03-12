@@ -241,4 +241,8 @@
             self_introduction = #{selfIntroduction,jdbcType=LONGVARCHAR}
         where id = #{id,jdbcType=BIGINT}
     </update>
+
+    <update id="updatePass" parameterType="java.util.Map">
+        UPDATE p_user set pswd = #{pswd,jdbcType=VARCHAR} where where id = #{id,jdbcType=BIGINT}
+    </update>
 </mapper>
