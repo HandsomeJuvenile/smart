@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}" />
     <link rel="stylesheet" th:href="@{/assets/font-awesome/4.5.0/css/font-awesome.min.css}" />
-
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}"/>
     <!-- page specific plugin styles -->
 
     <!-- text fonts -->
@@ -97,7 +97,10 @@
                                             上次登录时间
                                         </th>
                                         <th class="hidden-480">状态</th>
-
+                                        <th>
+                                            <i class="hidden-480"></i>
+                                            重置密码
+                                        </th>
                                         <th>操作</th>
                                     </tr>
                                     </thead>
@@ -129,8 +132,10 @@
                                         <td th:text="${pUser.lastLoginTime}">Feb 12</td>
                                         <td class="hidden-480">
                                             <span class="label label-sm label-warning" th:text="${pUser.status}">Expiring</span>
-                                        </td>
-
+                                        </td >
+                                         <td class="hidden-480" >
+                                            <a href="javascript:void(0);" th:onclick="'javascript:updatePass(\''+${pUser.id}+'\')'" name="updatePass">重置密码</a>
+                                          </td>
                                         <td>
                                             <div class="hidden-sm hidden-xs btn-group">
                                                 <button class="btn btn-xs btn-info" th:value="${pUser.id}" name="updateUser">
@@ -187,7 +192,7 @@
                                                 <div class="row">
                                                     <div class="col-xs-12 col-sm-2">
                                                         <div class="text-center">
-                                                            <img height="150" class="thumbnail inline no-margin-bottom" alt="Domain Owner's Avatar" th:src="@{/assets/images/avatars/profile-pic.jpg}" />
+                                                            <img height="150" class="thumbnail inline no-margin-bottom" alt="Domain Owner's Avatar" th:src="${pUser.jpgurl}" />
                                                             <br />
                                                             <div class="width-80 label label-info label-xlg arrowed-in arrowed-in-right">
                                                                 <div class="inline position-relative">
@@ -330,8 +335,9 @@
 </div><!-- /.main-container -->
 
 <!--[if !IE]> -->
-<!-- <![endif]-->
 <script th:src="@{/assets/js/jquery-2.1.4.min.js}"></script>
+
+<!-- <![endif]-->
 
 <!--[if IE]>
 <script th:src="@{/assets/js/jquery-1.11.3.min.js}"></script>
@@ -341,6 +347,8 @@
 </script>-->
 <script th:src="@{/assets/js/bootstrap.min.js}"></script>
 
+<!-- <script th:src="@{/layui/layui.js}"></script> -->
+<!-- <script th:src="@{/jQuery/jquery-3.0.0.min.js}"></script> -->
 <!-- page specific plugin scripts -->
 <script th:src="@{/assets/js/jquery.dataTables.min.js}"></script>
 <script th:src="@{/assets/js/jquery.dataTables.bootstrap.min.js}"></script>
@@ -557,25 +565,30 @@
         });
 
         $("[name='deleteUser']").click(function(){
+         if(confirm("是否确认删除")){
             var id = this.value;
             $.ajax({
-                type:'post',
-                url:'/Sys/user/delete',
-                data:{id:id},
-                success:function(data){
-                    if(data=='true'){
-                        return false;
-                    }
-                    if(data == 'false'){
-                        alert("删除失败!");
-                        return false;
-                    }
-                    window.location.reload();
-                },
-                error:function(){
-                    alert("删除失败!");
-                }
+                 type:'post',
+                 url:'/Sys/user/delete',
+                 data:{id:id},
+                 success:function(data){
+                       if(data=='true'){
+                            return false;
+                        }
+                        if(data == 'false'){
+                            alert("删除失败!");
+                            return false;
+                        }
+                        window.location.reload();
+                  },
+                  error:function(){
+                       alert("删除失败!");
+                  }
             });
+         }else{
+            return false;
+         }
+
         })
 
         $("#export").click(function(){
@@ -584,29 +597,100 @@
         });
 
         $("#pDelete").click(function(){
-            var arr=[];
-            $("input[name='checks']:checked").each(function(){
-                arr.push(this.value);
-            })
-            if(arr.length == 0){
-                alert("请选择要删除的用户!");
-                return false;
-            }
-            var json = arr.join(',');
-            $.ajax({
-                type:'post',
-                url:'/Sys/user/batchDelete',
-                data:{id:json},
-                success:function(data){
-                    window.location.reload();
-                },
-                error:function(){
-                    alert("删除失败!");
+            if(confirm("是否确认删除")){
+                var arr=[];
+                $("input[name='checks']:checked").each(function(){
+                    arr.push(this.value);
+                })
+                if(arr.length == 0){
+                   alert("请选择要删除的用户!");
+                   return false;
                 }
-            });
+                var json = arr.join(',');
+                $.ajax({
+                    type:'post',
+                    url:'/Sys/user/batchDelete',
+                    data:{id:json},
+                    success:function(data){
+                          window.location.reload();
+                    },
+                    error:function(){
+                          alert("删除失败!");
+                    }
+                 });
+            }
+            else{
+            return false;
+            }
+
+
         });
 
     })
+
+
+    function updatePass(id){
+    layui.use('layer', function(){
+              layer.open({
+                           title: '重置密码'
+                           ,content:
+                                  '<div class="detailMes fl">'+
+                                      '<form action="" method="post">'+
+                                          '<tr>'+
+                                             '<td class="fl" style="width:250px;">'+
+                                                 '<p class="fl" style="width:250px;">旧密码：</p>'+
+                                                 '<input type="text" name="oldPassword" required="true" id="oldPassword" value="" lay-verify="required" placeholder="请输入原密码" autocomplete="off" class="layui-input fl"/>'+
+                                                 ' </td><br/>'+
+                                                 '<td class="fl">'+
+                                                 '<p class="fl" style="width:250px;">新密码：</p>'+
+                                                 '<input type="text" name="newPassword" required="true" id="newPassword" value="" lay-verify="required" placeholder="请输入新密码" autocomplete="off" class="layui-input fl"/>'+
+                                                 '</td><br/>'+
+                                                 '<td>'+
+                                                 '<p class="fl" style="width:250px;">重新输入新密码：</p>'+
+                                                 '<input type="text" name="againPassword" required="true" id="againPassword" value="" lay-verify="required" placeholder="请再次输入新密码" autocomplete="off" class="layui-input fl"/>'+
+                                                 '</td><br/>'+
+                                                 '</tr>'+
+                                                 '</form>'+
+                                                 '</div>'
+                           ,btn: ['修改','取消',],
+                           btnAlign: 'c' ,//按钮居中
+                           shade: 0 ,//不显示遮罩
+                           yes: function(index, layero){
+                                var oldPassword = $("#oldPassword").val();
+                                var newPassword = $("#newPassword").val();
+                                var againPassword = $("#againPassword").val();
+                                if(newPassword != againPassword){
+                                    layer.msg("两次密码不一致!",{icon: 5, time: 3000});
+                                    return false;
+                                }
+
+                                var password = {'uId':id,'newPassword':newPassword,'oldPassword':oldPassword};
+                                $.ajax({
+                                    type:'post',
+                                         url:'/Sys/user/updatePass',
+                                          data:password,
+                                          success:function (data) {
+                                          data = data.name;
+                                               if(data == '0'){
+                                                 layer.msg("原密码有误!",{icon: 5, time: 3000});
+                                               }
+                                               if(data == '1'){
+                                                 layer.msg("修改成功!",{icon: 6, time: 3000});
+                                               }
+                                               if(data == '2'){
+                                                 layer.msg("修改失败!",{icon: 5, time: 3000});
+                                               }
+                                               if(data == '3'){
+                                                  layer.msg("系统故障!",{icon: 5, time: 3000});
+                                               }
+                                          }
+                                });
+                           }
+
+              });
+        });
+    }
+
 </script>
 </body>
 </html>

@@ -19,6 +19,56 @@
         <result column="self_introduction" property="selfIntroduction" jdbcType="LONGVARCHAR" />
     </resultMap>
 
+    <resultMap id="userImgMap" type="com.ace.smart.entity.vo.PUserVo" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="user_login_name" property="userLoginName" jdbcType="VARCHAR" />
+        <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+        <result column="r_name" property="rName" jdbcType="VARCHAR" />
+        <result column="r_id" property="rId" jdbcType="BIGINT" />
+        <result column="email" property="email" jdbcType="VARCHAR" />
+        <result column="u_age" property="uAge" jdbcType="INTEGER" />
+        <result column="u_address" property="uAddress" jdbcType="VARCHAR" />
+        <result column="phone" property="phone" jdbcType="VARCHAR" />
+        <result column="pswd" property="pswd" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+        <result column="last_login_time" property="lastLoginTime" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="CHAR" />
+        <result column="self_introduction" property="selfIntroduction" jdbcType="LONGVARCHAR" />
+        <result column="jpgurl" property="jpgurl" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="userRoleMap" type="com.ace.smart.entity.PUser">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="user_login_name" property="userLoginName" jdbcType="VARCHAR" />
+        <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+        <result column="r_name" property="rName" jdbcType="VARCHAR" />
+        <result column="r_id" property="rId" jdbcType="BIGINT" />
+        <result column="email" property="email" jdbcType="VARCHAR" />
+        <result column="u_age" property="uAge" jdbcType="INTEGER" />
+        <result column="u_address" property="uAddress" jdbcType="VARCHAR" />
+        <result column="phone" property="phone" jdbcType="VARCHAR" />
+        <result column="pswd" property="pswd" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+        <result column="last_login_time" property="lastLoginTime" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="CHAR" />
+        <result column="self_introduction" property="selfIntroduction" jdbcType="LONGVARCHAR" />
+        <collection property="pRoles" ofType="com.ace.smart.entity.PRole">
+            <id column="r_id" property="rId" jdbcType="BIGINT" />
+            <result column="r_name" property="rName" jdbcType="VARCHAR" />
+            <result column="r_status" property="rStatus" jdbcType="CHAR" />
+            <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+            <result column="remark" property="remark" jdbcType="VARCHAR" />
+            <collection property="pPermissions" ofType="com.ace.smart.entity.PPermission">
+                <id column="menu_id" property="menuId" jdbcType="BIGINT" />
+                <result column="url" property="url" jdbcType="VARCHAR" />
+                <result column="name" property="name" jdbcType="VARCHAR" />
+                <result column="parent_id" property="parentId" jdbcType="VARCHAR" />
+                <result column="level" property="level" jdbcType="BIGINT" />
+            </collection>
+        </collection>
+    </resultMap>
+
+
     <sql id="Base_Column_List" >
         id, user_login_name, nickname, email, u_age, u_address, phone, pswd, create_time, 
         last_login_time, CASE STATUS WHEN '0' THEN '离线' WHEN '1' THEN '在线' END status, self_introduction
@@ -28,6 +78,13 @@
         pu.id, pu.user_login_name, pu.nickname, pu.email, pu.u_age, pu.u_address, pu.phone, pu.pswd, pu.create_time,
         pu.last_login_time, CASE pu.STATUS WHEN '0' THEN '离线' WHEN '1' THEN '在线' END status, pu.self_introduction,pr.r_name,pr.r_id
     </sql>
+
+    <select id="login" resultMap="BaseResultMap" parameterType="com.ace.smart.entity.PUser">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM p_user
+        WHERE user_login_name = #{user_login_name} and pswd = #{pswd}
+    </select>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
         select 
@@ -45,6 +102,20 @@
         <include refid="Base_Column_List" />
         from p_user
         where user_login_name = #{value}
+    </select>
+
+    <select id="selectUserAndImgByLoginName" resultMap="userImgMap" parameterType="java.lang.String" >
+        select
+          pu.*,pi.jpgurl,pr.r_name
+        from
+          p_user pu LEFT JOIN
+          pu_img pi
+        ON pu.id = pi.user_id
+        LEFT JOIN u_user_role uur
+        on pu.id = uur.uid
+        LEFT JOIN p_role pr
+        ON uur.rid = pr.r_id
+        where user_login_name = #{value} and type = '0'
     </select>
 
     <select id="selectByIf" resultMap="BaseResultMap" parameterType="Map">
@@ -67,9 +138,10 @@
        </where>
     </select>
 
-    <select id="selectAll" resultMap="BaseResultMap">
+    <select id="selectAll" resultMap="userImgMap">
         select
         <include refid="selectAllandRole"/>
+        ,(SELECT jpgurl from pu_img where user_id = pu.id and type = '0') jpgurl
         from p_user pu
             LEFT JOIN u_user_role uur
             on pu.id = uur.uid
@@ -82,6 +154,24 @@
     <select id="countUser" resultType="java.lang.Integer">
         select count(id)
         from p_user
+    </select>
+
+    <select id="findUserRole" parameterType="java.lang.String" resultMap="userRoleMap">
+       select pu.id,pu.user_login_name,pr.r_id,pp.parent_id,pr.r_name,pp.menu_id,pp.`name`,pp.url,pp.create_time,pp.level
+        from p_user pu
+        LEFT JOIN u_user_role uur
+        on pu.id = uur.uid
+        LEFT JOIN p_role pr
+        on uur.rid = pr.r_id
+        LEFT JOIN p_role_permission prp
+        on pr.r_id = prp.rid
+        LEFT JOIN p_permission pp
+        on prp.pid = pp.menu_id
+        where pu.user_login_name = #{user_login_name,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectPswdByName" resultType="java.lang.String"  parameterType="java.lang.String">
+        select pswd from p_user where user_login_name = #{user_login_name};
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
@@ -189,6 +279,23 @@
         </trim>
     </insert>
 
+    <insert id ="batchInsert" parameterType="java.util.List" >
+        insert into p_user
+           (id, user_login_name, nickname,
+        email, u_age, u_address,
+        phone, pswd, create_time,
+        last_login_time, status, self_introduction)
+              values
+               <foreach collection ="list" item="pUser" index= "index" separator =",">
+                   (#{pUser.id,jdbcType=BIGINT}, #{pUser.userLoginName,jdbcType=VARCHAR}, #{pUser.nickname,jdbcType=VARCHAR},
+                   #{pUser.email,jdbcType=VARCHAR}, #{pUser.uAge,jdbcType=INTEGER}, #{pUser.uAddress,jdbcType=VARCHAR},
+                   #{pUser.phone,jdbcType=VARCHAR}, #{pUser.pswd,jdbcType=VARCHAR}, #{pUser.createTime,jdbcType=VARCHAR},
+                   #{pUser.lastLoginTime,jdbcType=VARCHAR}, #{pUser.status,jdbcType=CHAR}, #{pUser.selfIntroduction,jdbcType=LONGVARCHAR}
+                   )
+                 </foreach >
+          </insert >
+
+
     <update id="updateByPrimaryKeySelective" parameterType="com.ace.smart.entity.PUser" >
         update p_user
         <set >
@@ -243,6 +350,6 @@
     </update>
 
     <update id="updatePass" parameterType="java.util.Map">
-        UPDATE p_user set pswd = #{pswd,jdbcType=VARCHAR} where where id = #{id,jdbcType=BIGINT}
+        UPDATE p_user set pswd = #{pswd,jdbcType=VARCHAR}  where id = #{id,jdbcType=BIGINT}
     </update>
 </mapper>

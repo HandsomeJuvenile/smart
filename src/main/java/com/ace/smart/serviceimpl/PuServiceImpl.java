@@ -3,8 +3,11 @@ package com.ace.smart.serviceimpl;
 import com.ace.smart.container.EmailContainer;
 import com.ace.smart.entity.PUser;
 import com.ace.smart.entity.PUserVo;
+import com.ace.smart.entity.PuImg;
+import com.ace.smart.entity.UUserRole;
 import com.ace.smart.mapper.PUserMapper;
 import com.ace.smart.service.PUserService;
+import com.ace.smart.service.PuImgService;
 import com.ace.smart.service.UUserRoleService;
 import com.ace.smart.util.CollectionUtil;
 import com.ace.smart.util.DateUtil;
@@ -17,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -28,6 +32,8 @@ public class PuServiceImpl implements PUserService {
     private PUserMapper pUserMapper;
     @Autowired
     private UUserRoleService uUserRoleService;
+    @Autowired
+    private PuImgService puImgService;
 
     /**
      * 查询所有用户
@@ -75,15 +81,27 @@ public class PuServiceImpl implements PUserService {
      * @param pUser
      * @return
      */
+    // TODO: 2018/6/4 事务
+    @Transactional
     @Override
     public int insert(PUser pUser) {
+        String pswd = pUser.getPswd();
         long id = IdGen.getAtomicCounter();
-        pUser.setId(IdGen.getAtomicCounter());
+        pUser.setId(id);
         pUser.setStatus("0");
-        pUser.setPswd(PasswordUtil.encryptPassword(id+"",pUser.getPswd()));
+        pUser.setPswd(PasswordUtil.encryptPassword(id+"",pswd));
         pUser.setCreateTime(DateUtil.getCurrentDate());
         pUser.setLastLoginTime(DateUtil.getCurrentDate());
         int affect = pUserMapper.insert(pUser);;
+
+        // 设置默认头像
+        PuImg puImg = new PuImg();
+        puImg.setUploadTime(DateUtil.getCurrentDate());
+        puImg.setImgId(IdGen.getAtomicCounter()+"");
+        puImg.setJpgurl("/img/defaultHeadImg.jpg");
+        puImg.setType("0");
+        puImg.setUserId(id+"");
+        puImgService.insertSelective(puImg);
         return affect;
     }
 
@@ -106,12 +124,18 @@ public class PuServiceImpl implements PUserService {
     }
 
     @Override
+    @Transactional
     public int updateByPrimaryKeySelective(PUserVo record) {
-        record.setPswd(PasswordUtil.encryptPassword(record.getId()+"",record.getPswd()));
+        if (record.getPswd() != null && !record.getPswd().isEmpty()) {
+            record.setPswd(PasswordUtil.encryptPassword(record.getId() + "", record.getPswd()));
+        }
         int affect=pUserMapper.updateByPrimaryKeySelective(record);
-        uUserRoleService.deluserRole(record.getId());
+        if (record.getrId() != null && record.getrId()!=0l) {
+             uUserRoleService.deluserRole(record.getId());
+        }
         uUserRoleService.insert(record);
-        return affect;}
+        return affect;
+    }
 
     @Override
     public int updateByPrimaryKey(PUser record) {
@@ -208,6 +232,11 @@ public class PuServiceImpl implements PUserService {
         return (userLoginName!=null&&!"".equals(userLoginName))?pUserMapper.selectByLoginName(userLoginName):new PUser();
     }
 
+    /**
+     * 更新密码
+     * @param map
+     * @return
+     */
     @Override
     public int updatePass(Map map) {
         Assert.notNull(map,"map is not null");
@@ -216,4 +245,49 @@ public class PuServiceImpl implements PUserService {
         }
         return 0;
     }
+
+    /**
+     * @desc 登录的时候 查询用户权限
+     * @author zzh
+     * @date 2018/5/7 15:35  
+     * @param username
+     * @return pu
+     */
+    @Override
+    public PUser findUserRole(String username) {
+        if(username.isEmpty()){
+            return null;
+        }
+        return pUserMapper.findUserRole(username);
+    }
+
+    /**
+     * 查询用户信息和头像信息
+     * @param username
+     * @return
+     */
+    @Override
+    public com.ace.smart.entity.vo.PUserVo selectUserAndImgByLoginName(String username) {
+        return pUserMapper.selectUserAndImgByLoginName(username);
+    }
+
+    /**
+     * @desc 修改密码前 查询旧密码是否正确
+     * @author zzh
+     * @date 2018/6/1 9:34
+     * @param
+     * @return
+     */
+    @Override
+    public boolean selectPswdByName(String id,String username,String oldpswd) {
+        String pswd = pUserMapper.selectPswdByName(username);
+        if (pswd !=null && !pswd.isEmpty()) {
+            if (pswd.equals(PasswordUtil.encryptPassword(id+"",oldpswd))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 }

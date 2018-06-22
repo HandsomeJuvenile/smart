@@ -1,5 +1,6 @@
 package com.ace.smart.controller;
 
+import com.ace.smart.annotation.Log;
 import com.ace.smart.entity.PRole;
 import com.ace.smart.entity.vo.PRoleVo;
 import com.ace.smart.service.PRoleService;
@@ -37,14 +38,15 @@ public class PRoleController {
 
     @RequestMapping("/show")
     public String show(){
-        return "/sys/role/role";
+        return "sys/role/role";
     }
 
     @RequestMapping("/toCreate")
     public String toCreate(){
-        return "/sys/role/addRole";
+        return "sys/role/addRole";
     }
 
+    @Log("添加权限")
     @RequestMapping(value = "addRole",method = RequestMethod.POST)
     @ResponseBody
     public String addRole(@RequestBody PRoleVo pRole){
@@ -57,6 +59,7 @@ public class PRoleController {
         return pRoleService.addRolePer(pRole)>0 ?"1":"0";
     }
 
+    @Log("修改权限")
     @RequestMapping(value = "updateRole",method = RequestMethod.POST)
     @ResponseBody
     public String updateRole(@RequestBody PRoleVo pRole){
@@ -69,6 +72,7 @@ public class PRoleController {
         return pRoleService.update(pRole)>0 ?"1":"0";
     }
 
+    @Log("删除权限")
     @RequestMapping(value = "/deleteRole" ,method = RequestMethod.DELETE)
     @ResponseBody
     public int delteRole(@RequestBody Long[] rids){
@@ -83,8 +87,7 @@ public class PRoleController {
     public String showOne(Model model, long rid){
         PRole pRole = pRoleService.selectByPrimaryKey(rid);
         model.addAttribute("pRole",pRole);
-        return "/sys/role/updateRole";
+        return "sys/role/updateRole";
     }
-
 
 }

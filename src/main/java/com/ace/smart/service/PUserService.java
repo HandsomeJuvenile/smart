@@ -2,6 +2,7 @@ package com.ace.smart.service;
 
 import com.ace.smart.entity.PUser;
 import com.ace.smart.entity.PUserVo;
+import com.ace.smart.entity.PuImg;
 import com.github.pagehelper.PageInfo;
 
 import java.util.List;
@@ -33,4 +34,10 @@ public interface PUserService {
     PUser selectByLoginName(String userLoginName);
 
     int updatePass(Map map);
+
+    PUser findUserRole(String username);
+
+    com.ace.smart.entity.vo.PUserVo selectUserAndImgByLoginName(String username);
+
+    boolean selectPswdByName(String id,String username,String oldpswd);
 }

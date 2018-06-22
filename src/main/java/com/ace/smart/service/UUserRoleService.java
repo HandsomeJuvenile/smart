@@ -10,4 +10,6 @@ public interface UUserRoleService {
     int insertSelective(UUserRole record);
 
     int deluserRole(Long id);
+
+    UUserRole selectByPrimaryId(Long id);
 }

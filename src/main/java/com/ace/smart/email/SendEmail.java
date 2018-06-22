@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -52,7 +53,7 @@ import java.util.Properties;
 //                  别人笑我忒疯癫，我笑自己命太贱；
 //                  不见满街漂亮妹，哪个归得程序员？
 @Service
-public class SendEmail {
+public class SendEmail{
     private static final Logger logger = LoggerFactory.getLogger(SendEmail.class);
 
     @Autowired
@@ -61,6 +62,7 @@ public class SendEmail {
     private String Sender; //读取配置文件中的参数
     @Autowired
     private TemplateEngine templateEngine;
+    private TaskExecutor taskExecutor;
 
     /**
      * 发送普通邮件  只可以发送文本内容
@@ -186,6 +188,27 @@ public class SendEmail {
         logger.info("向"+ Arrays.asList(email.getRecives())+"发送附件邮件成功!");
     }
 
+    /**
+     * @desc 使用多线程发送邮件
+     * @author jianzh5
+     * @date 2017/4/1 11:41
+     * @param message MimeMessage邮件封装类
+     */
+    private void addSendMailTask(final MimeMessage message){
+        try{
+            taskExecutor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    javaMailSender.send(message);
+                }
+            });
+        }catch (Exception e){
+            logger.error("邮件发送异常,邮件详细信息为{}",e.getMessage());
+        }
+
+    }
+
+
     private void validation(Email email) {
         if (email == null) {
             throw new RuntimeException("email不可以为空");
@@ -194,12 +217,17 @@ public class SendEmail {
         }
     }
 
-
+    /**
+    * @desc
+    * @author zzh
+    * date 2018/5/7 15:28
+    */
     private void valRecives(Email email){
         if(email.getRecives() ==null || "".equals(Arrays.asList(email.getRecives()))){
             throw new RuntimeException("发送多人");
         }
     }
+
 
     private void valRecive(Email email){
         if(email.getRecive() ==null || "".equals(email.getRecive())){

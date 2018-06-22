@@ -13,8 +13,8 @@ public class UUserRoleServiceImpl implements UUserRoleService {
     @Autowired
     private UUserRoleMapper userRoleMapper;
 
-    @Transactional
     @Override
+    @Transactional
     public int insert(PUserVo pUserVo) {
         int affetct = 0;
         UUserRole uUserRole = new UUserRole();
@@ -38,6 +38,11 @@ public class UUserRoleServiceImpl implements UUserRoleService {
     @Transactional
     public int deluserRole(Long id) {
         return userRoleMapper.deluserRole(id);
+    }
+
+    @Override
+    public UUserRole selectByPrimaryId(Long id) {
+        return userRoleMapper.selectByPrimaryId(id);
     }
 
 }

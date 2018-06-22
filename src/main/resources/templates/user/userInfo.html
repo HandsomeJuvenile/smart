@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+	<meta charset="utf-8" />
+	<title>个人资料--layui后台管理模板 2.0</title>
+	<meta name="renderer" content="webkit" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="format-detection" content="telephone=no" />
+	<link rel="stylesheet" th:href="@{/layui/css/layui.css}" media="all" />
+	<link rel="stylesheet" th:href="@{/layuicms/css/public.css}" media="all" />
+</head>
+<body class="childrenBody">
+<form class="layui-form layui-row">
+	<div class="layui-col-md3 layui-col-xs12 user_right" style="margin-top: 30px">
+		<div class="layui-upload-list">
+			<img class="layui-upload-img layui-circle userFaceBtn userAvatar" id="userFace" th:src="${pUser.jpgurl}"/>
+		</div>
+		<button type="button" class="layui-btn layui-btn-primary userFaceBtn"><i class="layui-icon">&#xe67c;</i> 掐指一算，我要换一个头像了</button>
+		<p></p>
+	</div>
+	<div class="layui-col-md6 layui-col-xs12" style="margin-top: 30px">
+		<div class="layui-form-item">
+			<label class="layui-form-label">用户名</label>
+			<div class="layui-input-block">
+				<input type="text" th:value="${pUser.userLoginName}" name="userLoginName" value="游客" disabled="disabled" class="layui-input layui-disabled" />
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">用户组</label>
+			<div class="layui-input-block">
+				<input type="text" value="用户" th:value="${pUser.rName}" disabled="disabled" class="layui-input layui-disabled" />
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">真实姓名</label>
+			<div class="layui-input-block">
+			    <input type="hidden" name="id" th:value="${pUser.id}" />
+				<input type="text" th:value="${pUser.nickname}" name="nickname" value="姓名" placeholder="请输入真实姓名" lay-verify="required" class="layui-input realName" />
+			</div>
+		</div>
+		<div class="layui-form-item">
+        			<label class="layui-form-label">年龄</label>
+        			<div class="layui-input-block">
+        				<input type="text" th:value="${pUser.uAge}" value="0" name="uAge" placeholder="请输入年龄" lay-verify="number" class="layui-input" />
+        			</div>
+        </div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">手机号码</label>
+			<div class="layui-input-block">
+				<input type="tel" value="" name="phone" placeholder="请输入手机号码" th:value="${pUser.phone}" lay-verify="phone" class="layui-input userPhone" />
+			</div>
+		</div>
+		<input type="hidden" id="uAdress" name="uAdress" th:value="${pUser.uAddress}" />
+            <div class="layui-form-item">
+                    <label class="layui-form-label">家庭住址</label>
+                       <div class="layui-input-inline">
+                         <select name="provid" id="provid" lay-filter="provid">
+                             <option value="">请选择省</option>
+                         </select>
+                       </div>
+                       <div class="layui-input-inline">
+                           <select name="cityid" id="cityid" lay-filter="cityid">
+                              <option value="">请选择市</option>
+                           </select>
+                       </div>
+                       <div class="layui-input-inline">
+                           <select name="areaid" id="areaid" lay-filter="areaid">
+                              <option value="">请选择县/区</option>
+                           </select>
+                       </div>
+                  </div>
+        <div class="layui-form-item">
+        			<label class="layui-form-label">详细地址</label>
+        			<div class="layui-input-block">
+                           <input type="text" name="address" id="address"  placeholder="请输入详细地址" autocomplete="off" class="layui-input"/>
+        			</div>
+        </div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">邮箱</label>
+			<div class="layui-input-block">
+				<input type="text" name="email" value="" placeholder="请输入邮箱" th:value="${pUser.email}" lay-verify="email" class="layui-input userEmail" />
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">自我评价</label>
+			<div class="layui-input-block">
+				<textarea th:text="${pUser.selfIntroduction}" name="selfIntroduction" placeholder="请输入内容" class="layui-textarea myself"></textarea>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-input-block">
+				<button class="layui-btn" lay-submit="" lay-filter="changeUser">立即提交</button>
+				<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+			</div>
+		</div>
+	</div>
+</form>
+<script type="text/javascript" th:src="@{/layui/layui.js}"></script>
+<script type="text/javascript" th:src="@{/user/userInfo.js}"></script>
+<script th:src="@{/area/data.js}"></script>
+<script th:src="@{/area/province.js}"></script>
+
+</body>
+</html>

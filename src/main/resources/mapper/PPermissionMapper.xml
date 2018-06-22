@@ -50,6 +50,7 @@
         from p_permission pp
         <where>
             <if test="parentId!=null">pp.parent_id = #{parentId}</if>
+            <if test="menuId!=null">pp.menu_id = #{menuId}</if>
             <if test="name!=null"> pp.name LIKE #{name}</if>
         </where>
         order by pp.update_time desc
@@ -66,10 +67,10 @@
 
     <insert id="insert" parameterType="com.ace.smart.entity.PPermission" >
         insert into p_permission (menu_id, url, name, 
-            parent_id,status, create_time, update_time
+            parent_id,status,level, create_time, update_time
             )
-        values (#{menuId,jdbcType=BIGINT}, #{url,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},#{status,jdbcType=CHAR}
-            #{parentId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+         values (#{menuId,jdbcType=BIGINT}, #{url,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},#{parentId,jdbcType=BIGINT},#{status,jdbcType=CHAR},
+            #{level,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
             )
     </insert>
 

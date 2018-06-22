@@ -21,6 +21,13 @@
         where img_id = #{imgId,jdbcType=VARCHAR}
     </select>
 
+    <select id="selectByUserIdAndType" resultMap="BaseResultMap" parameterType="com.ace.smart.entity.PuImg" >
+        select
+        <include refid="Base_Column_List" />
+        from pu_img
+        where user_id = #{userId,jdbcType=VARCHAR} and type = #{type}
+    </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
         delete from pu_img
         where img_id = #{imgId,jdbcType=VARCHAR}
@@ -74,9 +81,6 @@
     <update id="updateByPrimaryKeySelective" parameterType="com.ace.smart.entity.PuImg" >
         update pu_img
         <set >
-            <if test="userId != null" >
-                user_id = #{userId,jdbcType=VARCHAR},
-            </if>
             <if test="type != null" >
                 type = #{type,jdbcType=CHAR},
             </if>
@@ -87,15 +91,14 @@
                 upload_time = #{uploadTime,jdbcType=TIMESTAMP},
             </if>
         </set>
-        where img_id = #{imgId,jdbcType=VARCHAR}
+        where user_id = #{userId,jdbcType=VARCHAR}
     </update>
 
     <update id="updateByPrimaryKey" parameterType="com.ace.smart.entity.PuImg" >
         update pu_img
-        set user_id = #{userId,jdbcType=VARCHAR},
-            type = #{type,jdbcType=CHAR},
+        set
             jpgurl = #{jpgurl,jdbcType=VARCHAR},
             upload_time = #{uploadTime,jdbcType=TIMESTAMP}
-        where img_id = #{imgId,jdbcType=VARCHAR}
+        where user_id = #{userId,jdbcType=VARCHAR}
     </update>
 </mapper>

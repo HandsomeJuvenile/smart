@@ -52,7 +52,6 @@ public class PUser {
     /**
      * 密码
      */
-    @NotNull(message = "密码不可以不填！")
     private String pswd;
 
     /**
@@ -76,7 +75,7 @@ public class PUser {
      */
     @RowName(name="自我介绍")
     private String selfIntroduction;
-    private List<PRole> pRoles;
+    private PRole pRoles;
 
     public Long getId() {
         return id;
@@ -190,11 +189,27 @@ public class PUser {
         this.selfIntroduction = selfIntroduction;
     }
 
-    public List<PRole> getpRoles() {
+    public Integer getuAge() {
+        return uAge;
+    }
+
+    public void setuAge(Integer uAge) {
+        this.uAge = uAge;
+    }
+
+    public String getuAddress() {
+        return uAddress;
+    }
+
+    public void setuAddress(String uAddress) {
+        this.uAddress = uAddress;
+    }
+
+    public PRole getpRoles() {
         return pRoles;
     }
 
-    public void setpRoles(List<PRole> pRoles) {
+    public void setpRoles(PRole pRoles) {
         this.pRoles = pRoles;
     }
 }

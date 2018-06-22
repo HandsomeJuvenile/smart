@@ -1,5 +1,6 @@
 package com.ace.smart.controller;
 
+import com.ace.smart.annotation.Log;
 import com.ace.smart.util.CollectionUtil;
 import com.ace.smart.entity.PPermission;
 import com.ace.smart.service.PPermissionService;
@@ -73,6 +74,13 @@ public class PPermissionController {
         }
         PageInfo menuPage = pPermissionService.selectAllByParetnId(page,limit,map);
         List permissionList = menuPage.getList();
+        if(map.containsKey("parentId") && permissionList.size() ==0 ){
+            Long parentId =(Long) map.get("parentId");
+            map.remove("parentId");
+            map.put("menuId",parentId);
+            menuPage = pPermissionService.selectAllByParetnId(page,limit,map);
+            permissionList = menuPage.getList();
+        }
         Map<String,Object> menuMap = LayuiMap.retrunMap();
         menuMap.put("count", menuPage.getTotal());
         if(CollectionUtil.listIsNull(permissionList)){
@@ -119,7 +127,7 @@ public class PPermissionController {
      */
     @RequestMapping("showTree")
     public String treeMenu(){
-        return "/sys/menu/treeMenu";
+        return "sys/menu/treeMenu";
     }
 
     /**
@@ -128,7 +136,7 @@ public class PPermissionController {
      */
     @RequestMapping("show")
     public String show(){
-        return "/sys/menu/index";
+        return "sys/menu/index";
     }
 
     /**
@@ -136,6 +144,7 @@ public class PPermissionController {
      * @param pPermission
      * @return
      */
+    @Log("修改菜单")
     @RequestMapping("update")
     @ResponseBody
     public String update(@RequestBody @Validated PPermission pPermission){
@@ -151,6 +160,7 @@ public class PPermissionController {
      * @param pPermission
      * @return
      */
+    @Log("添加菜单")
     @RequestMapping("post")
     @ResponseBody
     public String add(@RequestBody @Validated PPermission pPermission){
@@ -168,6 +178,7 @@ public class PPermissionController {
      * @param menuId
      * @return
      */
+    @Log("菜单删除")
     @RequestMapping("/delete/{menuId}")
     @ResponseBody
     public Integer delete(@PathVariable Long menuId){
@@ -188,6 +199,7 @@ public class PPermissionController {
      * @param status
      * @return
      */
+    @Log("菜单状态修改")
     @RequestMapping("/updateStatu")
     @ResponseBody
     public int updateStatus(@RequestParam("menuId") String menuId,
@@ -204,6 +216,6 @@ public class PPermissionController {
 
     @RequestMapping("ztree")
     public String showZtree(){
-        return "/sys/menu/zTreeMenu";
+        return "sys/menu/zTreeMenu";
     }
 }

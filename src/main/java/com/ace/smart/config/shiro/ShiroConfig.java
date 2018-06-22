@@ -28,19 +28,30 @@ public class ShiroConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(ShiroConfig.class);
     private static Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
 
+    
     //@Qualifier 表示合格者  只用securityManager 这个的bean才是正确的
     @Bean(name="shiroFilter")
+    // TODO: 2018/5/30 页面拦截  可能还有地方需要去优化  当我在未登录直接访问index时 没有进行跳转   已解决
     public ShiroFilterFactoryBean shiroFilter(@Qualifier("securityManager")SecurityManager securityManager){
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
-        /*shiroFilterFactoryBean.setLoginUrl("/toLogin"); //设置的是跳转到登录界面的url
-        shiroFilterFactoryBean.setSuccessUrl("/roll");//设置登录成功后取得页面
-        //filterChainDefinitionMap.put("/roll", "user");
-       // filterChainDefinitionMap.put("/**", "user");//表示访问该地址的用户是身份验证通过或RememberMe登录的都可以。
-        filterChainDefinitionMap.put("/roll/**", "authc");//authc 指定需要认证的url  如果没有登录就使用这个url  则会直接跳转到toLogin界面
-        filterChainDefinitionMap.put("/**", "anon");
+        shiroFilterFactoryBean.setLoginUrl("/login"); //设置的是跳转到登录界面的url
+        //shiroFilterFactoryBean.setSuccessUrl("/index");//设置登录成功后取得页面
+        //filterChainDefinitionMap.put("/Sys/**", "authc");//authc 指定需要认证的url  如果没有登录就使用这个url  则会直接跳转到toLogin界面
+        filterChainDefinitionMap.put("/area/**", "anon");
+        filterChainDefinitionMap.put("/assets/**", "anon");
+        filterChainDefinitionMap.put("/bootstrapswitch/**", "anon"); // anon 不用登录也可以访问
+        filterChainDefinitionMap.put("/img/**", "anon");
+        filterChainDefinitionMap.put("/jQuery/**", "anon");
+        filterChainDefinitionMap.put("/layui/**", "anon");
+        filterChainDefinitionMap.put("/layuicms/**", "anon");
+        filterChainDefinitionMap.put("/sys/**", "anon");
+        filterChainDefinitionMap.put("/user/**", "anon");
+        filterChainDefinitionMap.put("/zTree/**", "anon");
+        //filterChainDefinitionMap.put("/logout/**", "logout");
+        filterChainDefinitionMap.put("/**", "authc");  // 顺序拦截 按照顺序 对所有的静态文件 不设置拦截后  其他的都需要登录才可以
         //配置记住我或认证通过可以访问的地址
-        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);*/
+        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }
 
@@ -131,6 +142,8 @@ public class ShiroConfig {
         cookieRememberMeManager.setCipherKey(Base64.decode("2AvVhdsgUs0FSA3SDFAdag=="));
         return cookieRememberMeManager;
     }
+
+
     /**
      * shiro缓存管理器;
      * 需要注入对应的其它的实体类中：

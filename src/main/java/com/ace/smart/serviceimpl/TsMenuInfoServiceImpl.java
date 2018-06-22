@@ -53,24 +53,6 @@ public class TsMenuInfoServiceImpl implements TsMenuinfoMapper {
         return tsMenuinfoMapper.selectByUpMenuId(menu_Id);
     }
 
-    /**
-     * 迭代  缺点 : 只可以有3级菜单
-     * @param menuId
-     * @return
-     */
-    public List<TsMenuinfo> sysMenuItemsIter(String menuId){
-        List<TsMenuinfo> tsMenuinfoList = selectByUpMenuId("000000000000000");
-        int count = 0;
-        CollectionUtil.listIsNull(tsMenuinfoList);
-        for (TsMenuinfo tsMenuinfo:tsMenuinfoList) {
-            List<TsMenuinfo> tsSonMenuinfoList = selectByUpMenuId(tsMenuinfo.getMenuId());
-            tsMenuinfo.setTsMenuinfoList(tsSonMenuinfoList);
-            for (TsMenuinfo tsSonMeninfo :tsSonMenuinfoList){
-                tsSonMeninfo.setTsMenuinfoList(selectByUpMenuId(tsSonMeninfo.getMenuId()));
-            }
-        }
-        return tsMenuinfoList;
-    }
 
     /**
      * 使用递归完成无限极分类

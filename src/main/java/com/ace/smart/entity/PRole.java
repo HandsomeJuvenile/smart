@@ -64,4 +64,16 @@ public class PRole {
     public void setpPermissions(List<PPermission> pPermissions) {
         this.pPermissions = pPermissions;
     }
+
+    @Override
+    public String toString() {
+        return "PRole{" +
+                "rId=" + rId +
+                ", rName='" + rName + '\'' +
+                ", rStatus='" + rStatus + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", remark='" + remark + '\'' +
+                ", pPermissions=" + pPermissions +
+                '}';
+    }
 }

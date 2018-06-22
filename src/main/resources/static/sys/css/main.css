@@ -1,0 +1,10 @@
+/*公共*/
+.fl{float:left;}
+.fr{float:right;}
+
+/*头部*/
+.headBar{width:100%;height:20%;}
+/*树形导航*/
+.treeBar{margin:20px 0px 0px 20px; width:10%;}
+/*表格*/
+.tableBar{width:88%;}

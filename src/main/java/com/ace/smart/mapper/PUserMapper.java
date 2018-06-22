@@ -1,6 +1,8 @@
 package com.ace.smart.mapper;
 
 import com.ace.smart.entity.PUser;
+import com.ace.smart.entity.vo.PUserVo;
+import org.apache.catalina.User;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -31,4 +33,14 @@ public interface PUserMapper {
     PUser selectByLoginName(String userLoginName);
 
     int updatePass(Map map);
+
+    PUser login(PUser pUser);
+
+    PUser  findUserRole(String username);
+
+    PUserVo selectUserAndImgByLoginName(String username);
+
+    String selectPswdByName(String username );
+
+    int batchInsert(List<PUser> pUsers);
 }

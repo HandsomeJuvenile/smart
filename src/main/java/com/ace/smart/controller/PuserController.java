@@ -1,6 +1,8 @@
 package com.ace.smart.controller;
 
+import com.ace.smart.annotation.Log;
 import com.ace.smart.container.EmailContainer;
+import com.ace.smart.dao.RedisDao;
 import com.ace.smart.email.SendEmail;
 import com.ace.smart.entity.*;
 import com.ace.smart.mapper.PRoleMapper;
@@ -39,6 +41,8 @@ public class PuserController {
     private SendEmail sendEmail;
     @Autowired
     private UUserRoleService uUserRoleService;
+    @Autowired
+    private RedisDao redisDao;
 
     /**
      * 查询所有用户
@@ -60,16 +64,17 @@ public class PuserController {
         if(pUsers!=null && pUsers.size()>0){
             model.addAttribute("pageInfos",pageInfo);
         }
-        return "/user/index";
+        return "user/index";
     }
 
     @RequestMapping("/toCreate")
     public String toCreate(Model model){
         List<PRole> list = pRoleMapper.selectAll("");
         model.addAttribute("pRole",list);
-        return "/user/addUser";
+        return "user/addUser";
     }
 
+    @Log("添加用户")
     @RequestMapping("/create")
     @ResponseBody
     public String create(@RequestBody @Validated PUserVo pUser, BindingResult bindingResult){
@@ -112,6 +117,7 @@ public class PuserController {
         return "false";
     }
 
+    @Log("删除多个用户")
     @RequestMapping("/batchDelete")
     @ResponseBody
     public String batchDelete(@RequestParam(value="id") String[] id) {
@@ -128,49 +134,65 @@ public class PuserController {
         return "0";
     }
 
-        @RequestMapping("/sendEmail")
-        @ResponseBody
-        public String sendEmail (String recive){
-            String token = IdGen.uuid();
-            EmailContainer emailContainer = EmailContainer.getInstance();
-            Map<String, String> emailMap = emailContainer.getEmailMap();
-            emailMap.put(recive, token);
-            Email email = new Email();
-            email.setRecive(recive);
-            email.setToken(token);
-            sendEmail.sendRegisterEmail(email);
-            return "true";
-        }
+    @Log("邮件发送")
+    @RequestMapping("/sendEmail")
+    @ResponseBody
+    public String sendEmail (String recive){
+        String token = IdGen.uuid();
+        EmailContainer emailContainer = EmailContainer.getInstance();
+        Map<String, String> emailMap = emailContainer.getEmailMap();
+        emailMap.put(recive, token);
+        Email email = new Email();
+        email.setRecive(recive);
+        email.setToken(token);
+        sendEmail.sendRegisterEmail(email);
+        return "true";
+    }
 
-        @RequestMapping("/toUpdate/{id}")
-        public String toupdate(@PathVariable(value = "id")long id,Model model){
-            List<PRole> list = pRoleMapper.selectAll("");
-            model.addAttribute("pRole",list);
-            if(id!=0){
-                PUser pUser = pUserService.selectByPrimaryKey(id);
-                if(pUser!=null){
-                    model.addAttribute("pUser",pUser);
-                }else {
-                    model.addAttribute("pUser",new PUser());
-                }
-            }
-            return "/user/update";
-        }
-
-        @RequestMapping("/update")
-        @ResponseBody
-        public String update(@RequestBody @Validated PUserVo pUser){
+    /**
+     * @desc 跳转到修改页面
+     * @author zzh
+     * @date 2018/6/4 11:15
+     * @param   
+     * @return 
+     */
+    @RequestMapping("/toUpdate/{id}")
+    public String toupdate(@PathVariable(value = "id")long id,Model model){
+        List<PRole> list = pRoleMapper.selectAll("");
+        model.addAttribute("pRole",list);
+        if(id!=0){
+            PUser pUser = pUserService.selectByPrimaryKey(id);
             if(pUser!=null){
-                String validation = pUserService.validationUpdate(pUser);
-                if(!"true".equals(validation)){
-                    return validation;
-                }
-                pUserService.updateByPrimaryKeySelective(pUser);
-                logger.info(pUser.getUserLoginName()+"信息发生修改");
-                return "0";
+                model.addAttribute("pUser",pUser);
+            }else {
+                model.addAttribute("pUser",new PUser());
             }
-            return "nodata";
         }
+        return "user/update";
+    }
+
+    /**
+     * @desc 修改用户信息
+     * @author zzh
+     * @date 2018/6/4 11:15
+     * @param
+     * @return
+     */
+    @Log("修改用户")
+    @RequestMapping("/update")
+    @ResponseBody
+    public String update(@RequestBody @Validated PUserVo pUser){
+        if(pUser!=null){
+            String validation = pUserService.validationUpdate(pUser);
+            if(!"true".equals(validation)){
+                return validation;
+            }
+            pUserService.updateByPrimaryKeySelective(pUser);
+            logger.info(pUser.getUserLoginName()+"信息发生修改");
+            return "0";
+        }
+        return "nodata";
+    }
 
     /**
      * 修改密码
@@ -183,30 +205,36 @@ public class PuserController {
      * @param newPassword
      * @return
      */
-       @ResponseBody
-       @RequestMapping("/updatePass")
-       @JsonSerialize(using = ToStringSerializer.class)
-       public ReturnMessage updatePass(@RequestParam("uId") String uId,String oldPassword,String newPassword){
-            PUser pUser;
-            Long uLId = Long.parseLong(uId);
-            ReturnMessage message = new ReturnMessage();
-            if(uLId!=null){
-                pUser = pUserService.selectByPrimaryKey(uLId);
-                if(!pUser.getPswd().equals(PasswordUtil.encryptPassword(uLId+"",oldPassword))){
-                    message.setName("0");
-                    return message;
-                }
-                Map<String,Object> map = new HashMap<String,Object>();
-                map.put("id",uLId);
-                map.put("newPassword",PasswordUtil.encryptPassword(uLId+"",newPassword));
-                int affect = pUserService.updatePass(map);
-                if(affect > 0){
-                    message.setName("1");
-                }else{
-                    message.setName("2");
-                }
+    @ResponseBody
+    @RequestMapping("/updatePass")
+    @JsonSerialize(using = ToStringSerializer.class)
+    public ReturnMessage updatePass(@RequestParam("uId") String uId,String oldPassword,String newPassword){
+        PUser pUser;
+        Long uLId = Long.parseLong(uId);
+        ReturnMessage message = new ReturnMessage();
+        if(uLId!=null){
+            pUser = pUserService.selectByPrimaryKey(uLId);
+            if(!pUser.getPswd().equals(PasswordUtil.encryptPassword(uLId+"",oldPassword))){
+                message.setName("0");
                 return message;
             }
+            Map<String,Object> map = new HashMap<String,Object>();
+            map.put("id",uLId);
+            map.put("newPassword",PasswordUtil.encryptPassword(uLId+"",newPassword));
+            int affect = pUserService.updatePass(map);
+            if(affect > 0){
+                message.setName("1");
+            }else{
+                message.setName("2");
+            }
             return message;
-       }
+        }
+        return message;
+    }
+
+    @RequestMapping("/profile")
+    public String profile(){
+        return "user/profile";
+    }
+
 }

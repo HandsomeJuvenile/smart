@@ -1,8 +1,13 @@
 package com.ace.smart.config.shiro;
 
 
+import com.ace.smart.dao.RedisDao;
+import com.ace.smart.entity.PPermission;
+import com.ace.smart.entity.PUser;
 import com.ace.smart.entity.URole;
 import com.ace.smart.entity.UUser;
+import com.ace.smart.service.PPermissionService;
+import com.ace.smart.service.PUserService;
 import com.ace.smart.service.UserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -20,12 +25,14 @@ import java.util.List;
 public class MyRealm extends AuthorizingRealm {
     private static final Logger LOGGER = LoggerFactory.getLogger(MyRealm.class);
 
-    @Autowired
-    private UserService userService;
     @Override
     public String getName() {
         return "myRealm";
     }
+    @Autowired
+    private PUserService pUserService;
+    @Autowired
+    private RedisDao redisDao;
 
     @Override
     public boolean supports(AuthenticationToken authenticationToken) {
@@ -41,14 +48,25 @@ public class MyRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken)authenticationToken;//获取用户输入的token
-        long username = Long.parseLong(usernamePasswordToken.getUsername());
-        UUser user = userService.findUserRole(username);// 查找数据库中的用户token
-        LOGGER.info("验证当前Subject时获取到token---");
-        if (user == null) {
-            LOGGER.info("用户不存在");
-            return null;
+        String username = usernamePasswordToken.getUsername();
+        PUser user = null;
+
+        // 看redis 里面是否存储了想要的数据
+
+
+        // 没有 则开始相redis 里面存放数据 但是这样的话 第一次登陆会非常慢
+
+        if(username!=null && !username.isEmpty()) {
+            if (redisDao.isExistsKey(username)) {
+                user = (PUser) redisDao.getValue(username);// 查找redis中的用户token
+            } else {
+                user = pUserService.selectByLoginName(username);// 查找数据库中的用户token
+            }
         }
-        return new SimpleAuthenticationInfo(user,user.getPswd(), ByteSource.Util.bytes(user.getId()+""),getName());
+        if (user == null || user.getId()==null) {
+            throw new UnknownAccountException("账号或密码不正确");
+        }
+        return new SimpleAuthenticationInfo(user,user.getPswd(),ByteSource.Util.bytes(user.getId()+""),this.getName());
     }
 
     /**
@@ -60,18 +78,13 @@ public class MyRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         LOGGER.info("权限配置");
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
-        UUser uUser =(UUser) principalCollection.getPrimaryPrincipal(); // 获取当前输入登录的用户信息
+        PUser uUser =(PUser) principalCollection.getPrimaryPrincipal(); // 获取当前输入登录的用户信息
         if(uUser!=null){
-            List<URole> rolesList = uUser.getRoles();
-            if(rolesList!=null && rolesList.size()>0){
-                for (URole uRole:rolesList) {
-                    simpleAuthorizationInfo.addRole(uRole.getName()); // 权限名称
-                   /* if (uRole.getuPermissions()!=null && uRole.getuPermissions().size()>0){
-                        for (UPermission uPermission:uRole.getuPermissions()) {
-                            simpleAuthorizationInfo.addStringPermission(uPermission.getUrl());  // 资源路径
-                        }
-                    }*/
-                }
+            //  对权限授权
+
+            List<PPermission> pPermissions = pUserService.findUserRole(uUser.getUserLoginName()).getpRoles().getpPermissions();
+            for (PPermission pPermission:pPermissions) {
+
             }
         }
         return simpleAuthorizationInfo;

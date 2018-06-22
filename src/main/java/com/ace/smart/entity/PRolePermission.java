@@ -18,9 +18,6 @@ public class PRolePermission {
         return rid;
     }
 
-    public void setRid(Long rid) {
-        this.rid = rid;
-    }
 
     public Long getPid() {
         return pid;
@@ -36,5 +33,9 @@ public class PRolePermission {
 
     public void setuPermissions(List<PPermission> uPermissions) {
         this.uPermissions = uPermissions;
+    }
+
+    public void setRid(Long rid) {
+        this.rid = rid;
     }
 }

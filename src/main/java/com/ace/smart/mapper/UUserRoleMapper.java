@@ -10,4 +10,6 @@ public interface UUserRoleMapper {
     int insertSelective(UUserRole record);
 
     int deluserRole(Long id);
+
+    UUserRole selectByPrimaryId(Long id);
 }

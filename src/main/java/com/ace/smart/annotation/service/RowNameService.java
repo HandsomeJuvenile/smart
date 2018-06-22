@@ -26,7 +26,7 @@ public class RowNameService {
         Annotation[] annotations = clz.getAnnotations();
         // 获得到类的属性注解
         Field[ ] fields = clz.getDeclaredFields();
-        List<String> titles = new ArrayList();
+        List<String> titles = new ArrayList<String>();
         for (Field field:fields) {
             Field f = clz.getDeclaredField(field.getName());
             RowName afd = f.getAnnotation(RowName.class);

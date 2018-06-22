@@ -63,7 +63,7 @@ public class PRoleServiceImpl implements PRoleService{
 
     @Override
     public PRole selectByPrimaryKey(Long rId) {
-        Assert.notNull(rId,"not null");
+        Assert.notNull(rId,"rid not null");
         return pRoleMapper.selectByPrimaryKey(rId);
     }
 
@@ -126,7 +126,7 @@ public class PRoleServiceImpl implements PRoleService{
      * @param pRolePermissionsList
      * @return
      */
-    private List<PPermission> checked(List<PPermission> list,List<PRolePermission> pRolePermissionsList){
+    public List<PPermission> checked(List<PPermission> list,List<PRolePermission> pRolePermissionsList){
         for (PPermission pPermission: list) {
             for (PRolePermission pRolePermission:pRolePermissionsList) {
                 if (pRolePermission.getPid().equals(pPermission.getMenuId()) ) {
@@ -140,4 +140,67 @@ public class PRoleServiceImpl implements PRoleService{
         return list;
     }
 
+    /**
+     * 将权限-资源 分类
+     *
+     * 1. 所有的数据都在一个list中
+     * 2.
+     * @param list
+     * @return
+     */
+    // TODO: 2018/5/2   所有菜单数据在一个list  菜单分级
+    public List<PPermission> sortPPermiss(List<PPermission> list){
+        List<PPermission> newPPermission = new ArrayList<PPermission>();
+        for (PPermission pPermission: list) {
+            for (PPermission pPermission1:list) {
+                if (pPermission.getMenuId().equals(pPermission1.getParentId())) {
+                    if (pPermission.getChildren() == null) {
+                        pPermission.setChildren(new ArrayList<PPermission>());
+                    }
+                    pPermission.getChildren().add(pPermission1);
+                }
+            }
+        }
+        return list;
+    }
+
+    /**
+     * 递归已经分类好的菜单  设置勾选
+     * @param list
+     * @return
+     */
+
+    public List<PPermission> checkeds(List<PPermission> list,List<PPermission> pPermissions){
+        for (PPermission pPermission: list) {
+            for (PPermission permission:pPermissions) {
+                if (Long.parseLong(permission.getParentId()) == pPermission.getMenuId() ) {
+                    pPermission.setChecked(true);
+                    if (pPermission.getChildren()!=null) {
+                        checkeds(pPermission.getChildren(),pPermissions);
+                    }
+                }
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public List<PPermission> userPPermission(List<PPermission> list) {
+        List<PPermission> newPP = new ArrayList<>();
+        int index = 0;
+        for (int i = 0;i<list.size();i++) {
+            if (list.get(i).getParentId().equals("0")) {
+                newPP.add(list.get(i));
+                index++;
+                for (PPermission pPermission:list) {
+                    if (pPermission.getParentId().equals(list.get(i).getMenuId()+"")) {
+
+                        newPP.get(index-1).getChildren().add(pPermission);
+                    }
+                }
+            }
+        }
+
+        return newPP;
+    }
 }

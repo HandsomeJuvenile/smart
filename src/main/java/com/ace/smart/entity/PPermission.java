@@ -1,6 +1,7 @@
 package com.ace.smart.entity;
 
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,7 +12,6 @@ import java.util.List;
  * @date 2017-12-27
  */
 public class PPermission {
-    @NotNull
     private Long menuId;
     private String url;
     private String name;
@@ -19,9 +19,10 @@ public class PPermission {
     private String createTime;
     private String updateTime;
     private String status;
+    private int level;
     private boolean checked;
 
-    private List<PPermission> children;
+    private List<PPermission> children = new ArrayList<PPermission>();
 
     public Long getMenuId() {
         return menuId;
@@ -93,5 +94,13 @@ public class PPermission {
 
     public void setChecked(boolean checked) {
         this.checked = checked;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 }

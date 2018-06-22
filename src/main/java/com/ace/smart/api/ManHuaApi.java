@@ -5,11 +5,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-public class ManHuaApi implements YiYuanApi{
+public class ManHuaApi extends YiYuanApi{
     private static final String URLL = "http://route.showapi.com/978-1?&id=/xe/7007558.shtml&showapi_appid=52687&count=5&showapi_sign=90481383dd904aa2b7a85c4c38b2c5a8";
 
     @Override
-    public String getContent() {
+    public String getContent(String s) {
         java.net.URL u = null;
         byte b[] = null;
         try {
@@ -38,7 +38,6 @@ public class ManHuaApi implements YiYuanApi{
 
     public static void main(String[] args) {
         YiYuanApi yiYuanApi = new ManHuaApi();
-        System.out.println(yiYuanApi.getContent());
-
+        System.out.println(yiYuanApi.getContent(""));
     }
 }

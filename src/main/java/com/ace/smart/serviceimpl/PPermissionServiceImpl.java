@@ -47,6 +47,8 @@ public class PPermissionServiceImpl implements PPermissionService{
             record.setMenuId(IdGen.getAtomicCounter());
             record.setUpdateTime(DateUtil.getCurrentDate());
             record.setCreateTime(DateUtil.getCurrentDate());
+            record.setStatus("1");
+            record.setLevel(1);
             return pPermissionMapper.insert(record);
         }
         return 0;

@@ -14,13 +14,18 @@ public class TestController {
         return "/blank";
     }
 
-    @RequestMapping("/toLogin")
-    public String toLogin(){
-        return "roll/login";
-    }
-
     @RequestMapping("/happy")
     public String happy(){
-        return "/christmas";
+        return "christmas";
+    }
+
+    @RequestMapping("/head")
+    public String head(){
+        return "head";
+    }
+
+    @RequestMapping("kuayu")
+    public String kuayu(){
+        return "test";
     }
 }

@@ -18,8 +18,11 @@ public class PasswordUtil {
     public static String encryptPassword(String id,String password){
         ByteSource credentialsSalt = ByteSource.Util.bytes(id);
         String newPassword = new SimpleHash(algorithmName,password,ByteSource.Util.bytes(id),hashIterations).toHex();
-        System.out.println(newPassword);
         return newPassword;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(PasswordUtil.encryptPassword("152479894562501","111111"));
     }
 
 }

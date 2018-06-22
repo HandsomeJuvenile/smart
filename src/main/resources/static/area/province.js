@@ -34,11 +34,16 @@ function treeSelect(config) {
     form.render();
     cityEvent(config);
     areaEvent(config);
+    // 检测当点击到省份 会再去
     form.on('select(' + config.s1 + ')', function (data) {
         cityEvent(data);
         form.on('select(' + config.s2 + ')', function (data) {
             areaEvent(data);
         });
+    });
+
+    form.on('select(' + config.s2 + ')', function (data) {
+        areaEvent(data);
     });
 
     function cityEvent(data) {

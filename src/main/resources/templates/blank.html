@@ -227,7 +227,7 @@
 									<ul class="dropdown-menu dropdown-navbar">
 										<li>
 											<a href="#" class="clearfix">
-												<img src="assets/images/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar" />
+												<img th:src="@{/assets/images/avatars/avatar.png}" class="msg-photo" alt="Alex's Avatar" />
 												<span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Alex:</span>
@@ -244,7 +244,7 @@
 
 										<li>
 											<a href="#" class="clearfix">
-												<img src="assets/images/avatars/avatar3.png" class="msg-photo" alt="Susan's Avatar" />
+												<img th:src="@{/assets/images/avatars/avatar3.png}" class="msg-photo" alt="Susan's Avatar" />
 												<span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Susan:</span>
@@ -261,7 +261,7 @@
 
 										<li>
 											<a href="#" class="clearfix">
-												<img src="assets/images/avatars/avatar4.png" class="msg-photo" alt="Bob's Avatar" />
+												<img th:src="@{/assets/images/avatars/avatar4.png}" class="msg-photo" alt="Bob's Avatar" />
 												<span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Bob:</span>
@@ -278,7 +278,7 @@
 
 										<li>
 											<a href="#" class="clearfix">
-												<img src="assets/images/avatars/avatar2.png" class="msg-photo" alt="Kate's Avatar" />
+												<img th:src="@{/assets/images/avatars/avatar2.png}" class="msg-photo" alt="Kate's Avatar" />
 												<span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Kate:</span>
@@ -745,7 +745,7 @@
 
 						<ul class="submenu">
 							<li class="">
-								<a href="profile.html">
+								<a th:href="@{Sys/user/profile}" target="right">
 									<i class="menu-icon fa fa-caret-right"></i>
 									User Profile
 								</a>

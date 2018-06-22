@@ -13,4 +13,9 @@ public class PRoleVo extends PRole{
     public void setPpers(String ppers) {
         this.ppers = ppers;
     }
+
+
+
+
+
 }

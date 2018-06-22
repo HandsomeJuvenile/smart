@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+  <meta charset="UTF-8" />
+  <title>Title</title>
+</head>
+<body>
+        <form id= "uploadForm" method="post" action="" onsubmit="return false;">
+            <input type="text" name = "name" id="myFile" th:value="wanger"/><br/>
+            <input type="text" name="phonenumber" th:value="1654165"/><br/>
+            <input type="text" name="email" th:value="4113"/><br/>
+            <input type="file" name="file" /><br/>
+            <input type="button" id="btn" th:value="提交"/><br/>
+            <progress id="progress" max="100" value="0" style="margin-top:10px;"></progress>
+
+        </form>
+</body>
+<script th:src="@{/jQuery/jquery-3.0.0.min.js}"></script>
+<script type="text/javascript">
+    $(function() {
+
+       $("#btn").click(function() {
+            $.ajax({
+                type: "GET",    // 此处只能是get请求 post请求后端即使修改（method = RequestMethod.POST）了也不行
+                async: false,
+                url: "http://192.168.1.107:8080/recruit/index",
+                dataType: "json",
+                //jsonp: "callback",
+                //jsonpCallback:"flightHandler",
+                success: function(json){
+                    alert(json);
+                },
+                error: function(){
+                    alert('fail');
+                }
+            });
+       });
+    })
+
+   
+</script>
+</html>

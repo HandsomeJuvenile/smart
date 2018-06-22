@@ -1,4 +1,29 @@
 $(function () {
+    var zNodess;
+    $.ajax({
+        type:'post',
+        url:'/Sys/menu/showTreeData',
+        async:false,
+        contentType: "application/json",
+        success:function (data) {
+            zNodess = data;
+        },
+        error:function(){
+            layer.msg("失败！",{icon:6});
+        }
+    });
+
+    layui.use('tree', function(){
+        layui.tree({
+            elem: '#demoTree' //传入元素选择器
+            , nodes: zNodess
+            ,click: function (node) {
+                toMenu(node.menuId,"")
+            }
+        });
+    });
+
+
     /**
      * 添加菜单
      */

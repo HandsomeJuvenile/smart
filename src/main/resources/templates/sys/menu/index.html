@@ -9,9 +9,11 @@
         .f2{padding-left: 10px;}
     </style>
     <link rel="stylesheet" th:href="@{/layui/css/layui.css}"/>
+    <link rel="stylesheet" th:href="@{/sys/css/main.css}"/>
     <link rel="stylesheet" th:href="@{/bootstrapswitch/bootstrap-switch.min.css}"/>
 </head>
 <body onload="loadTable('0','')">
+<div class="headBar">
     <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief" style="margin: 0px;">
         <ul class="layui-tab-title">
             <li class="layui-this" lay-id="1" data-type="switch_level_one">菜单管理</li>
@@ -35,14 +37,19 @@
                     <div class="layui-inline">
                         <button class="layui-btn" lay-filter="formDemo" id="search"><i class="layui-icon">&#xe615;</i>查询</button>
                         <button class="layui-btn" data-type="addPPer" id="addPPer"><i class="layui-icon">&#xe608;</i> 添加菜单</button>
-                        <button class="layui-btn" lay-filter="formDemo" id="retrunEvent" value="{{d.parentId}}">返回</button>
                     </div>
                 </blockquote>
             </div>
         </div>
     </div>
-    <div class="mainBar">
-        <table lay-filter="menuControl" id="menu" class="table_margin"></table>
+  </div>
+     <div class="treeBar fl">
+  	    <ul id="demoTree"></ul>
+    </div>
+    <div class="tableBar fl">
+        <div class="mainBar">
+            <table lay-filter="menuControl" id="menu" class="table_margin"></table>
+        </div>
     </div>
 <script type="text/html" id="usernameTpl">
     <a name="menuName" value="" onclick="toMenu('{{d.menuId}}')" class="layui-table-link">{{ d.name }}</a>

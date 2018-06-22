@@ -7,6 +7,10 @@
         <result column="rid" property="rid" jdbcType="BIGINT" />
     </resultMap>
 
+    <select id="selectByPrimaryId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+      select * from u_user_role where uid = #{VALUE}
+    </select>
+
     <insert id="insert" parameterType="com.ace.smart.entity.UUserRole" >
         insert into u_user_role (uid, rid)
         values (#{uid,jdbcType=BIGINT}, #{rid,jdbcType=BIGINT})

@@ -1,5 +1,7 @@
 package com.ace.smart.serviceimpl;
 
+import com.ace.smart.entity.PUser;
+import com.ace.smart.entity.PuImg;
 import com.ace.smart.entity.UUser;
 import com.ace.smart.service.LoginService;
 import org.apache.shiro.SecurityUtils;
@@ -9,15 +11,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class LoginServiceImpl implements LoginService {
     @Override
-    public UUser getLoginUser() {
+    public PUser getLoginUser() {
         Subject subject = SecurityUtils.getSubject();
-        UUser uUser = subject.getPrincipals().oneByType(UUser.class);
-        return uUser;
+        PUser pUser = subject.getPrincipals().oneByType(PUser.class);
+        return pUser==null?new PUser():pUser;
     }
 
     @Override
     public String getLoginName() {
-        return getLoginUser().getId()+"";
+        return getLoginUser().getUserLoginName();
+    }
+
+    @Override
+    public PUser login(PUser pUser) {
+
+        return null;
     }
 
 }

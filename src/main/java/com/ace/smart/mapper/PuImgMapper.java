@@ -3,6 +3,8 @@ package com.ace.smart.mapper;
 import com.ace.smart.entity.PuImg;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface PuImgMapper {
     int deleteByPrimaryKey(String imgId);
@@ -16,4 +18,6 @@ public interface PuImgMapper {
     int updateByPrimaryKeySelective(PuImg record);
 
     int updateByPrimaryKey(PuImg record);
+
+    List<PuImg> selectByUserIdAndType(PuImg puImg);
 }
