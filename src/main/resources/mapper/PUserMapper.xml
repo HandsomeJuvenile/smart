@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.ace.smart.mapper.PUserMapper" >
+<mapper namespace="com.ace.smart.common.mapper.PUserMapper" >
 
-    <resultMap id="BaseResultMap" type="com.ace.smart.entity.PUser" >
+    <resultMap id="BaseResultMap" type="com.ace.smart.common.entity.PUser" >
         <id column="id" property="id" jdbcType="BIGINT" />
         <result column="user_login_name" property="userLoginName" jdbcType="VARCHAR" />
         <result column="nickname" property="nickname" jdbcType="VARCHAR" />
@@ -19,7 +19,7 @@
         <result column="self_introduction" property="selfIntroduction" jdbcType="LONGVARCHAR" />
     </resultMap>
 
-    <resultMap id="userImgMap" type="com.ace.smart.entity.vo.PUserVo" >
+    <resultMap id="userImgMap" type="com.ace.smart.common.entity.vo.PUserVo" >
         <id column="id" property="id" jdbcType="BIGINT" />
         <result column="user_login_name" property="userLoginName" jdbcType="VARCHAR" />
         <result column="nickname" property="nickname" jdbcType="VARCHAR" />
@@ -37,7 +37,7 @@
         <result column="jpgurl" property="jpgurl" jdbcType="VARCHAR" />
     </resultMap>
 
-    <resultMap id="userRoleMap" type="com.ace.smart.entity.PUser">
+    <resultMap id="userRoleMap" type="com.ace.smart.common.entity.PUser">
         <id column="id" property="id" jdbcType="BIGINT" />
         <result column="user_login_name" property="userLoginName" jdbcType="VARCHAR" />
         <result column="nickname" property="nickname" jdbcType="VARCHAR" />
@@ -52,13 +52,13 @@
         <result column="last_login_time" property="lastLoginTime" jdbcType="VARCHAR" />
         <result column="status" property="status" jdbcType="CHAR" />
         <result column="self_introduction" property="selfIntroduction" jdbcType="LONGVARCHAR" />
-        <collection property="pRoles" ofType="com.ace.smart.entity.PRole">
+        <collection property="pRoles" ofType="com.ace.smart.common.entity.PRole">
             <id column="r_id" property="rId" jdbcType="BIGINT" />
             <result column="r_name" property="rName" jdbcType="VARCHAR" />
             <result column="r_status" property="rStatus" jdbcType="CHAR" />
             <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
             <result column="remark" property="remark" jdbcType="VARCHAR" />
-            <collection property="pPermissions" ofType="com.ace.smart.entity.PPermission">
+            <collection property="pPermissions" ofType="com.ace.smart.common.entity.PPermission">
                 <id column="menu_id" property="menuId" jdbcType="BIGINT" />
                 <result column="url" property="url" jdbcType="VARCHAR" />
                 <result column="name" property="name" jdbcType="VARCHAR" />
@@ -79,7 +79,7 @@
         pu.last_login_time, CASE pu.STATUS WHEN '0' THEN '离线' WHEN '1' THEN '在线' END status, pu.self_introduction,pr.r_name,pr.r_id
     </sql>
 
-    <select id="login" resultMap="BaseResultMap" parameterType="com.ace.smart.entity.PUser">
+    <select id="login" resultMap="BaseResultMap" parameterType="com.ace.smart.common.entity.PUser">
         SELECT
         <include refid="Base_Column_List"/>
         FROM p_user
@@ -167,7 +167,7 @@
         on pr.r_id = prp.rid
         LEFT JOIN p_permission pp
         on prp.pid = pp.menu_id
-        where pu.user_login_name = #{user_login_name,jdbcType=BIGINT}
+        where pp.status = '1' and pu.user_login_name = #{user_login_name,jdbcType=BIGINT}
     </select>
 
     <select id="selectPswdByName" resultType="java.lang.String"  parameterType="java.lang.String">
@@ -186,7 +186,7 @@
         </foreach>
     </delete>
 
-    <insert id="insert" parameterType="com.ace.smart.entity.PUser" >
+    <insert id="insert" parameterType="com.ace.smart.common.entity.PUser" >
         insert into p_user (id, user_login_name, nickname, 
             email, u_age, u_address, 
             phone, pswd, create_time, 
@@ -199,7 +199,7 @@
             )
     </insert>
 
-    <insert id="insertSelective" parameterType="com.ace.smart.entity.PUser" >
+    <insert id="insertSelective" parameterType="com.ace.smart.common.entity.PUser" >
         insert into p_user
         <trim prefix="(" suffix=")" suffixOverrides="," >
             <if test="id != null" >
@@ -296,7 +296,7 @@
           </insert >
 
 
-    <update id="updateByPrimaryKeySelective" parameterType="com.ace.smart.entity.PUser" >
+    <update id="updateByPrimaryKeySelective" parameterType="com.ace.smart.common.entity.PUser" >
         update p_user
         <set >
             <if test="nickname != null" >
@@ -333,7 +333,7 @@
         where user_login_name = #{userLoginName}
     </update>
 
-    <update id="updateByPrimaryKey" parameterType="com.ace.smart.entity.PUser" >
+    <update id="updateByPrimaryKey" parameterType="com.ace.smart.common.entity.PUser" >
         update p_user
         set user_login_name = #{userLoginName,jdbcType=VARCHAR},
             nickname = #{nickname,jdbcType=VARCHAR},

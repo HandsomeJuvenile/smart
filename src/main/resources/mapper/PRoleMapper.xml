@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.ace.smart.mapper.PRoleMapper" >
+<mapper namespace="com.ace.smart.common.mapper.PRoleMapper" >
 
-    <resultMap id="BaseResultMap" type="com.ace.smart.entity.PRole" >
+    <resultMap id="BaseResultMap" type="com.ace.smart.common.entity.PRole" >
         <id column="r_id" property="rId" jdbcType="BIGINT" />
         <result column="r_name" property="rName" jdbcType="VARCHAR" />
         <result column="r_status" property="rStatus" jdbcType="CHAR" />
@@ -43,7 +43,7 @@
         </foreach>
     </delete>
 
-    <insert id="insert" parameterType="com.ace.smart.entity.PRole" >
+    <insert id="insert" parameterType="com.ace.smart.common.entity.PRole" >
         insert into p_role (r_id, r_name,
             r_status,  create_time,
             remark)
@@ -52,7 +52,7 @@
             #{remark,jdbcType=VARCHAR})
     </insert>
 
-    <insert id="insertSelective" parameterType="com.ace.smart.entity.PRole" >
+    <insert id="insertSelective" parameterType="com.ace.smart.common.entity.PRole" >
         insert into p_role
         <trim prefix="(" suffix=")" suffixOverrides="," >
             <if test="rId != null" >
@@ -91,7 +91,7 @@
         </trim>
     </insert>
 
-    <update id="updateByPrimaryKeySelective" parameterType="com.ace.smart.entity.PRole" >
+    <update id="updateByPrimaryKeySelective" parameterType="com.ace.smart.common.entity.PRole" >
         update p_role
         <set >
             <if test="rName != null" >
@@ -110,7 +110,7 @@
         where r_id = #{rId,jdbcType=BIGINT}
     </update>
 
-    <update id="updateByPrimaryKey" parameterType="com.ace.smart.entity.PRole" >
+    <update id="updateByPrimaryKey" parameterType="com.ace.smart.common.entity.PRole" >
         update p_role
         set r_name = #{rName,jdbcType=VARCHAR},
             r_status = #{rStatus,jdbcType=CHAR},

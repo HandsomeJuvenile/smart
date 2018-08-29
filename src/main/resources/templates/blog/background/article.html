@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>文章列表</title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="format-detection" content="telephone=no">
+	<link rel="stylesheet" th:href="@{/layui/css/layui.css}" media="all" />
+    <link rel="stylesheet" th:href="@{/layuicms/css/public.css}" media="all" />
+</head>
+<body class="childrenBody">
+<form class="layui-form">
+	<blockquote class="layui-elem-quote quoteBox">
+		<form class="layui-form">
+			<div class="layui-inline">
+                <label class="layui-form-label">浏览量</label>
+                <div class="layui-input-inline" style="width: 100px;">
+                  <input type="text"  id="beginViewCount" name="beginViewCount"  autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-input-inline" style="width: 100px;">
+                  <input type="text" name="endViewCount"  id="endViewCount" autocomplete="off" class="layui-input">
+                </div>
+				<div class="layui-input-inline">
+					<input type="text" name="articleTitle" class="layui-input articleTitle" placeholder="请输入文章标题" />
+				</div>
+				<div class="layui-input-inline">
+                      <select name="city" id="articleType" lay-verify="required">
+                        <option value="">请选择文章类型</option>
+                        <option value="0">读书</option>
+                        <option value="1">社会热点</option>
+                        <option value="2">程序员</option>
+                        <option value="3">投资理财</option>
+                      </select>
+			</div>
+				<a class="layui-btn search_btn" data-type="reload">搜索</a>
+			<div class="layui-inline">
+				<a class="layui-btn layui-btn-danger layui-btn-normal delAll_btn">批量删除</a>
+			</div>
+		</form>
+	</blockquote>
+	<table id="articleList" lay-filter="articleList"></table>
+	<!--来源-->
+	<script type="text/html" id="articleStatus">
+		{{#  if(d.articleSource == "0"){ }}
+		<span class="layui-red">简书</span>
+		{{#  } else if(d.articleSource == "1"){ }}
+		<span class="layui-blue">未知</span>
+		{{#  }}}
+	</script>
+	<script type="text/html" id="articleTypeS">
+    		{{#  if(d.articleType == "0"){ }}
+    		<span class="layui-red">读书</span>
+    		{{#  } else if(d.articleType == "1"){ }}
+    		<span class="layui-blue">社会热点</span>
+    		{{#  } else if(d.articleType == "2"){ }}
+    		<span class="layui-blue">程序员</span>
+            {{#  } else if(d.articleType == "3"){ }}
+    		<span class="layui-blue">投资理财</span>
+    		{{#  }}}
+
+    </script>
+
+	<!--操作-->
+	<script type="text/html" id="articleListBar">
+		<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+		<a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
+		<a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="look">预览</a>
+	</script>
+</form>
+<script type="text/javascript" th:src="@{/layui/layui.js}"></script>
+<script th:src="@{/jQuery/jquery-3.0.0.min.js}"></script>
+<script type="text/javascript" th:src="@{/blog/background/article.js}"></script>
+</body>
+</html>

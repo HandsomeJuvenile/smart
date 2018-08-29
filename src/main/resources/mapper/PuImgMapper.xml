@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.ace.smart.mapper.PuImgMapper" >
+<mapper namespace="com.ace.smart.common.mapper.PuImgMapper" >
 
-    <resultMap id="BaseResultMap" type="com.ace.smart.entity.PuImg" >
+    <resultMap id="BaseResultMap" type="com.ace.smart.common.entity.PuImg" >
         <id column="img_id" property="imgId" jdbcType="VARCHAR" />
         <result column="user_id" property="userId" jdbcType="VARCHAR" />
         <result column="type" property="type" jdbcType="CHAR" />
@@ -21,7 +21,7 @@
         where img_id = #{imgId,jdbcType=VARCHAR}
     </select>
 
-    <select id="selectByUserIdAndType" resultMap="BaseResultMap" parameterType="com.ace.smart.entity.PuImg" >
+    <select id="selectByUserIdAndType" resultMap="BaseResultMap" parameterType="com.ace.smart.common.entity.PuImg" >
         select
         <include refid="Base_Column_List" />
         from pu_img
@@ -33,14 +33,14 @@
         where img_id = #{imgId,jdbcType=VARCHAR}
     </delete>
 
-    <insert id="insert" parameterType="com.ace.smart.entity.PuImg" >
+    <insert id="insert" parameterType="com.ace.smart.common.entity.PuImg" >
         insert into pu_img (img_id, user_id, type, 
             jpgurl, upload_time)
         values (#{imgId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{type,jdbcType=CHAR}, 
             #{jpgurl,jdbcType=VARCHAR}, #{uploadTime,jdbcType=TIMESTAMP})
     </insert>
 
-    <insert id="insertSelective" parameterType="com.ace.smart.entity.PuImg" >
+    <insert id="insertSelective" parameterType="com.ace.smart.common.entity.PuImg" >
         insert into pu_img
         <trim prefix="(" suffix=")" suffixOverrides="," >
             <if test="imgId != null" >
@@ -78,7 +78,7 @@
         </trim>
     </insert>
 
-    <update id="updateByPrimaryKeySelective" parameterType="com.ace.smart.entity.PuImg" >
+    <update id="updateByPrimaryKeySelective" parameterType="com.ace.smart.common.entity.PuImg" >
         update pu_img
         <set >
             <if test="type != null" >
@@ -94,7 +94,7 @@
         where user_id = #{userId,jdbcType=VARCHAR}
     </update>
 
-    <update id="updateByPrimaryKey" parameterType="com.ace.smart.entity.PuImg" >
+    <update id="updateByPrimaryKey" parameterType="com.ace.smart.common.entity.PuImg" >
         update pu_img
         set
             jpgurl = #{jpgurl,jdbcType=VARCHAR},

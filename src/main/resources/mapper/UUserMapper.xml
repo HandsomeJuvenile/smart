@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.ace.smart.mapper.UUserMapper" >
-    <resultMap id="BaseResultMap" type="com.ace.smart.entity.UUser" >
+<mapper namespace="com.ace.smart.common.mapper.UUserMapper" >
+    <resultMap id="BaseResultMap" type="com.ace.smart.common.entity.UUser" >
         <id column="id" property="id" jdbcType="BIGINT" />
         <result column="nickname" property="nickname" jdbcType="VARCHAR" />
         <result column="email" property="email" jdbcType="VARCHAR" />
@@ -11,7 +11,7 @@
         <result column="status" property="status" jdbcType="BIGINT" />
     </resultMap>
 
-    <resultMap id="userRoleMap" type="com.ace.smart.entity.UUser">
+    <resultMap id="userRoleMap" type="com.ace.smart.common.entity.UUser">
         <id column="id" property="id" jdbcType="BIGINT" />
         <result column="nickname" property="nickname" jdbcType="VARCHAR" />
         <result column="email" property="email" jdbcType="VARCHAR" />
@@ -19,11 +19,11 @@
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
         <result column="last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP" />
         <result column="status" property="status" jdbcType="BIGINT" />
-            <collection property="roles" ofType="com.ace.smart.entity.URole">
+            <collection property="roles" ofType="com.ace.smart.common.entity.URole">
                 <id column="rid" property="id" jdbcType="BIGINT" />
                 <result column="rname" property="name" jdbcType="VARCHAR" />
                 <result column="rtype" property="type" jdbcType="VARCHAR" />
-                <collection property="uPermissions" ofType="com.ace.smart.entity.UPermission">
+                <collection property="uPermissions" ofType="com.ace.smart.common.entity.UPermission">
                     <id column="pid" property="id" jdbcType="BIGINT" />
                     <result column="url" property="url" jdbcType="VARCHAR" />
                     <result column="pname" property="name" jdbcType="VARCHAR" />
@@ -51,7 +51,7 @@
     where uu.id = #{id}
     </select>
 
-    <select id="checkUsername" parameterType="java.lang.Long" resultType="com.ace.smart.entity.UUser">
+    <select id="checkUsername" parameterType="java.lang.Long" resultType="com.ace.smart.common.entity.UUser">
        SELECT id,pswd,nickname FROM u_user where id = #{id}
     </select>
 
@@ -66,7 +66,7 @@
         where id = #{id,jdbcType=BIGINT}
     </delete>
 
-    <insert id="insert" parameterType="com.ace.smart.entity.UUser" >
+    <insert id="insert" parameterType="com.ace.smart.common.entity.UUser" >
         insert into u_user (id, nickname, email, 
             pswd, create_time, last_login_time, 
             status)
@@ -75,7 +75,7 @@
             #{status,jdbcType=BIGINT})
     </insert>
 
-    <insert id="insertSelective" parameterType="com.ace.smart.entity.UUser" >
+    <insert id="insertSelective" parameterType="com.ace.smart.common.entity.UUser" >
         insert into u_user
         <trim prefix="(" suffix=")" suffixOverrides="," >
             <if test="id != null" >
@@ -125,7 +125,7 @@
         </trim>
     </insert>
 
-    <update id="updateByPrimaryKeySelective" parameterType="com.ace.smart.entity.UUser" >
+    <update id="updateByPrimaryKeySelective" parameterType="com.ace.smart.common.entity.UUser" >
         update u_user
         <set >
             <if test="nickname != null" >
@@ -150,7 +150,7 @@
         where id = #{id,jdbcType=BIGINT}
     </update>
 
-    <update id="updateByPrimaryKey" parameterType="com.ace.smart.entity.UUser" >
+    <update id="updateByPrimaryKey" parameterType="com.ace.smart.common.entity.UUser" >
         update u_user
         set nickname = #{nickname,jdbcType=VARCHAR},
             email = #{email,jdbcType=VARCHAR},

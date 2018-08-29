@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ace.smart.resource.mapper.ResTypeMapper" >
+
+    <resultMap id="BaseResultMap" type="com.ace.smart.resource.entity.ResType" >
+        <id column="res_id" property="resId" jdbcType="BIGINT" />
+        <result column="res_name" property="resName" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        res_id, res_name
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select 
+        <include refid="Base_Column_List" />
+        from res_type
+        where res_id = #{resId,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from res_type
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        delete from res_type
+        where res_id = #{resId,jdbcType=BIGINT}
+    </delete>
+
+    <insert id="insert" parameterType="com.ace.smart.resource.entity.ResType" >
+        insert into res_type (res_id, res_name
+            )
+        values (#{resId,jdbcType=BIGINT}, #{resName,jdbcType=VARCHAR}
+            )
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.ace.smart.resource.entity.ResType" >
+        insert into res_type
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="resId != null" >
+                res_id,
+            </if>
+            <if test="resName != null" >
+                res_name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="resId != null" >
+                #{resId,jdbcType=BIGINT},
+            </if>
+            <if test="resName != null" >
+                #{resName,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="com.ace.smart.resource.entity.ResType" >
+        update res_type
+        <set >
+            <if test="resName != null" >
+                res_name = #{resName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where res_id = #{resId,jdbcType=BIGINT}
+    </update>
+</mapper>

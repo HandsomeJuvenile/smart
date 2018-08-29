@@ -122,7 +122,5 @@ $(function () {
         window.history.back();
     });
 
-
-
 });
 

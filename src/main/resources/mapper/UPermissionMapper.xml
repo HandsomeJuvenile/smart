@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.ace.smart.mapper.UPermissionMapper" >
+<mapper namespace="com.ace.smart.common.mapper.UPermissionMapper" >
 
-    <resultMap id="BaseResultMap" type="com.ace.smart.entity.UPermission" >
+    <resultMap id="BaseResultMap" type="com.ace.smart.common.entity.UPermission" >
         <id column="id" property="id" jdbcType="BIGINT" />
         <result column="url" property="url" jdbcType="VARCHAR" />
         <result column="name" property="name" jdbcType="VARCHAR" />
@@ -24,12 +24,12 @@
         where id = #{id,jdbcType=BIGINT}
     </delete>
 
-    <insert id="insert" parameterType="com.ace.smart.entity.UPermission" >
+    <insert id="insert" parameterType="com.ace.smart.common.entity.UPermission" >
         insert into u_permission (id, url, name)
         values (#{id,jdbcType=BIGINT}, #{url,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR})
     </insert>
 
-    <insert id="insertSelective" parameterType="com.ace.smart.entity.UPermission" >
+    <insert id="insertSelective" parameterType="com.ace.smart.common.entity.UPermission" >
         insert into u_permission
         <trim prefix="(" suffix=")" suffixOverrides="," >
             <if test="id != null" >
@@ -55,7 +55,7 @@
         </trim>
     </insert>
 
-    <update id="updateByPrimaryKeySelective" parameterType="com.ace.smart.entity.UPermission" >
+    <update id="updateByPrimaryKeySelective" parameterType="com.ace.smart.common.entity.UPermission" >
         update u_permission
         <set >
             <if test="url != null" >
@@ -68,7 +68,7 @@
         where id = #{id,jdbcType=BIGINT}
     </update>
 
-    <update id="updateByPrimaryKey" parameterType="com.ace.smart.entity.UPermission" >
+    <update id="updateByPrimaryKey" parameterType="com.ace.smart.common.entity.UPermission" >
         update u_permission
         set url = #{url,jdbcType=VARCHAR},
             name = #{name,jdbcType=VARCHAR}

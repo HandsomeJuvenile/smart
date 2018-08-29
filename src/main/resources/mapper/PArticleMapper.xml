@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ace.smart.bolg.mapper.PArticleMapper" >
+
+    <resultMap id="BaseResultMap" type="com.ace.smart.bolg.entity.PArticle" >
+        <id column="article_id" property="articleId" jdbcType="BIGINT" />
+        <result column="article_title" property="articleTitle" jdbcType="VARCHAR" />
+        <result column="article_author" property="articleAuthor" jdbcType="VARCHAR" />
+        <result column="article_content" property="articleContent" jdbcType="LONGVARCHAR" />
+        <result column="wordage" property="wordage" jdbcType="VARCHAR" />
+        <result column="likes_count" property="likesCount" jdbcType="BIGINT" />
+        <result column="view_count" property="viewCount" jdbcType="BIGINT" />
+        <result column="article_type" property="articleType" jdbcType="VARCHAR" />
+        <result column="article_url" property="articleUrl" jdbcType="VARCHAR" />
+        <result column="article_abstract" property="articleAbstract" jdbcType="VARCHAR" />
+        <result column="article_time" property="articleTime" jdbcType="TIMESTAMP" />
+        <result column="article_source" property="articleSource" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        article_id, article_title, article_author, article_content, wordage, likes_count, 
+        view_count, article_type, article_url, article_abstract, article_time, article_source
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select 
+        <include refid="Base_Column_List" />
+        from p_article
+        where article_id = #{articleId,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap" parameterType="java.util.Map" >
+        select
+        <include refid="Base_Column_List" />
+        from p_article
+        <where>
+            <if test="articleSource!=null">article_source = #{articleSource}</if>
+            <if test="articleTitle!=null">AND article_title LIKE '%${articleTitle}%'</if>
+            <if test="beginViewCount!=null and endViewCount!=null" >AND view_count BETWEEN #{beginViewCount} and #{endViewCount}</if>
+            <if test="articleType!=null">AND article_type = #{articleType}</if>
+        </where>
+    </select>
+
+    <select id="selectAlloOptimised" resultMap="BaseResultMap" parameterType="java.util.Map" >
+        select
+        <include refid="Base_Column_List" />
+        from p_article
+         <where>
+            <if test="articleSource!=null">article_source = #{articleSource} </if>
+            <if test="articleTitle!=null">AND article_title LIKE '%${articleTitle}%'</if>
+            <if test="beginViewCount!=null and endViewCount!=null" >AND view_count BETWEEN #{beginViewCount} and #{endViewCount}</if>
+            <if test="articleType!=null">AND article_type = #{articleType}</if>
+            AND article_id >=
+         </where>
+            (select article_id
+            from p_article
+            <where>
+                <if test="articleSource!=null">article_source = #{articleSource} </if>
+                <if test="articleTitle!=null">AND article_title LIKE '%${articleTitle}%'</if>
+                <if test="beginViewCount!=null and endViewCount!=null" >AND view_count BETWEEN #{beginViewCount} and #{endViewCount}</if>
+                <if test="articleType!=null">AND article_type = #{articleType}</if>
+            </where>
+            limit 0, 1)
+            <if test="field!=null and order!=null">ORDER BY ${field} ${order}</if>
+            limit #{page},#{limit}
+    </select>
+
+    <select id="selectAlloBetween" resultMap="BaseResultMap" parameterType="java.util.Map" >
+        select
+        <include refid="Base_Column_List" />
+        from p_article
+        <where>
+            <if test="articleSource!=null">article_source = #{articleSource} </if>
+            <if test="articleTitle!=null">AND article_title LIKE '%${articleTitle}%'</if>
+            <if test="beginViewCount!=null and endViewCount!=null" >AND view_count BETWEEN #{beginViewCount} and #{endViewCount}</if>
+            <if test="articleType!=null">AND article_type = #{articleType}</if>
+        </where>
+        and article_id between #{page} and #{pages}
+        <if test="group!=null">ORDER BY article_id ASC</if>
+        limit #{limit}
+    </select>
+
+    <select id="countPA" resultType="java.lang.Long" parameterType="java.util.Map" >
+        select count(article_source)
+        from p_article
+        <where>
+            <if test="articleSource!=null">article_source = #{articleSource} </if>
+            <if test="articleTitle!=null">AND article_title LIKE '%${articleTitle}%'</if>
+            <if test="beginViewCount!=null and endViewCount!=null" >AND view_count BETWEEN #{beginViewCount} and #{endViewCount}</if>
+            <if test="articleType!=null">AND article_type = #{articleType}</if>
+        </where>
+    </select>
+
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        delete from p_article
+        where article_id = #{articleId,jdbcType=BIGINT}
+    </delete>
+
+    <insert id="insert" parameterType="com.ace.smart.bolg.entity.PArticle" >
+        insert into p_article (article_id, article_title, article_author, 
+            article_content, wordage, likes_count, 
+            view_count, article_type, article_url, 
+            article_abstract, article_time, article_source
+            )
+        values (#{articleId,jdbcType=BIGINT}, #{articleTitle,jdbcType=VARCHAR}, #{articleAuthor,jdbcType=VARCHAR}, 
+            #{articleContent,jdbcType=LONGVARCHAR}, #{wordage,jdbcType=VARCHAR}, #{likesCount,jdbcType=VARCHAR}, 
+            #{viewCount,jdbcType=VARCHAR}, #{articleType,jdbcType=VARCHAR}, #{articleUrl,jdbcType=VARCHAR}, 
+            #{articleAbstract,jdbcType=VARCHAR}, #{articleTime,jdbcType=TIMESTAMP}, #{articleSource,jdbcType=VARCHAR}
+            )
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.ace.smart.bolg.entity.PArticle" >
+        insert into p_article
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="articleId != null" >
+                article_id,
+            </if>
+            <if test="articleTitle != null" >
+                article_title,
+            </if>
+            <if test="articleAuthor != null" >
+                article_author,
+            </if>
+            <if test="articleContent != null" >
+                article_content,
+            </if>
+            <if test="wordage != null" >
+                wordage,
+            </if>
+            <if test="likesCount != null" >
+                likes_count,
+            </if>
+            <if test="viewCount != null" >
+                view_count,
+            </if>
+            <if test="articleType != null" >
+                article_type,
+            </if>
+            <if test="articleUrl != null" >
+                article_url,
+            </if>
+            <if test="articleAbstract != null" >
+                article_abstract,
+            </if>
+            <if test="articleTime != null" >
+                article_time,
+            </if>
+            <if test="articleSource != null" >
+                article_source,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="articleId != null" >
+                #{articleId,jdbcType=BIGINT},
+            </if>
+            <if test="articleTitle != null" >
+                #{articleTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="articleAuthor != null" >
+                #{articleAuthor,jdbcType=VARCHAR},
+            </if>
+            <if test="articleContent != null" >
+                #{articleContent,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="wordage != null" >
+                #{wordage,jdbcType=VARCHAR},
+            </if>
+            <if test="likesCount != null" >
+                #{likesCount,jdbcType=VARCHAR},
+            </if>
+            <if test="viewCount != null" >
+                #{viewCount,jdbcType=VARCHAR},
+            </if>
+            <if test="articleType != null" >
+                #{articleType,jdbcType=VARCHAR},
+            </if>
+            <if test="articleUrl != null" >
+                #{articleUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="articleAbstract != null" >
+                #{articleAbstract,jdbcType=VARCHAR},
+            </if>
+            <if test="articleTime != null" >
+                #{articleTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="articleSource != null" >
+                #{articleSource,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.ace.smart.bolg.entity.PArticle" >
+        update p_article
+        <set >
+            <if test="articleTitle != null" >
+                article_title = #{articleTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="articleAuthor != null" >
+                article_author = #{articleAuthor,jdbcType=VARCHAR},
+            </if>
+            <if test="articleContent != null" >
+                article_content = #{articleContent,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="wordage != null" >
+                wordage = #{wordage,jdbcType=VARCHAR},
+            </if>
+            <if test="likesCount != null" >
+                likes_count = #{likesCount,jdbcType=VARCHAR},
+            </if>
+            <if test="viewCount != null" >
+                view_count = #{viewCount,jdbcType=VARCHAR},
+            </if>
+            <if test="articleType != null" >
+                article_type = #{articleType,jdbcType=VARCHAR},
+            </if>
+            <if test="articleUrl != null" >
+                article_url = #{articleUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="articleAbstract != null" >
+                article_abstract = #{articleAbstract,jdbcType=VARCHAR},
+            </if>
+            <if test="articleTime != null" >
+                article_time = #{articleTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="articleSource != null" >
+                article_source = #{articleSource,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where article_id = #{articleId,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.ace.smart.bolg.entity.PArticle" >
+        update p_article
+        set article_title = #{articleTitle,jdbcType=VARCHAR},
+            article_author = #{articleAuthor,jdbcType=VARCHAR},
+            article_content = #{articleContent,jdbcType=LONGVARCHAR},
+            wordage = #{wordage,jdbcType=VARCHAR},
+            likes_count = #{likesCount,jdbcType=VARCHAR},
+            view_count = #{viewCount,jdbcType=VARCHAR},
+            article_type = #{articleType,jdbcType=VARCHAR},
+            article_url = #{articleUrl,jdbcType=VARCHAR},
+            article_abstract = #{articleAbstract,jdbcType=VARCHAR},
+            article_time = #{articleTime,jdbcType=TIMESTAMP},
+            article_source = #{articleSource,jdbcType=VARCHAR}
+        where article_id = #{articleId,jdbcType=BIGINT}
+    </update>
+</mapper>

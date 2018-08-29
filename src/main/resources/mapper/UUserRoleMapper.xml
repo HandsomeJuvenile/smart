@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.ace.smart.mapper.UUserRoleMapper" >
+<mapper namespace="com.ace.smart.common.mapper.UUserRoleMapper" >
 
-    <resultMap id="BaseResultMap" type="com.ace.smart.entity.UUserRole" >
+    <resultMap id="BaseResultMap" type="com.ace.smart.common.entity.UUserRole" >
         <result column="uid" property="uid" jdbcType="BIGINT" />
         <result column="rid" property="rid" jdbcType="BIGINT" />
     </resultMap>
@@ -11,12 +11,12 @@
       select * from u_user_role where uid = #{VALUE}
     </select>
 
-    <insert id="insert" parameterType="com.ace.smart.entity.UUserRole" >
+    <insert id="insert" parameterType="com.ace.smart.common.entity.UUserRole" >
         insert into u_user_role (uid, rid)
         values (#{uid,jdbcType=BIGINT}, #{rid,jdbcType=BIGINT})
     </insert>
 
-    <insert id="insertSelective" parameterType="com.ace.smart.entity.UUserRole" >
+    <insert id="insertSelective" parameterType="com.ace.smart.common.entity.UUserRole" >
         insert into u_user_role
         <trim prefix="(" suffix=")" suffixOverrides="," >
             <if test="uid != null" >

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.ace.smart.mapper.TsMenuinfoMapper" >
+<mapper namespace="com.ace.smart.common.mapper.TsMenuinfoMapper" >
 
-    <resultMap id="BaseResultMap" type="com.ace.smart.entity.TsMenuinfo" >
+    <resultMap id="BaseResultMap" type="com.ace.smart.common.entity.TsMenuinfo" >
         <id column="menu_id" property="menuId" jdbcType="VARCHAR" />
         <result column="subsys_code" property="subsysCode" jdbcType="VARCHAR" />
         <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
@@ -32,7 +32,7 @@
         <result column="remark" property="remark" jdbcType="VARCHAR" />
     </resultMap>
 
-    <resultMap id="ModuleResultMap" type="com.ace.smart.entity.TsModuleinfo" >
+    <resultMap id="ModuleResultMap" type="com.ace.smart.common.entity.TsModuleinfo" >
         <id column="module_id" property="moduleId" jdbcType="VARCHAR" />
         <result column="module_name" property="moduleName" jdbcType="VARCHAR" />
         <result column="module_file" property="moduleFile" jdbcType="VARCHAR" />
@@ -53,7 +53,7 @@
         <result column="remark" property="remark" jdbcType="VARCHAR" />
     </resultMap>
 
-    <resultMap id="menuItemsResultMap" type="com.ace.smart.entity.TsMenuinfo">
+    <resultMap id="menuItemsResultMap" type="com.ace.smart.common.entity.TsMenuinfo">
         <id column="menu_id" property="menuId" jdbcType="VARCHAR" />
         <result column="subsys_code" property="subsysCode" jdbcType="VARCHAR" />
         <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
@@ -110,7 +110,7 @@
         where menu_id = #{menuId,jdbcType=VARCHAR}
     </delete>
 
-    <insert id="insert" parameterType="com.ace.smart.entity.TsMenuinfo" >
+    <insert id="insert" parameterType="com.ace.smart.common.entity.TsMenuinfo" >
         insert into ts_menuinfo (menu_id, subsys_code, menu_name, 
             up_menu_id, menu_class, menu_type, 
             module_id, in_param_code1, in_param_value1, 
@@ -133,7 +133,7 @@
             )
     </insert>
 
-    <insert id="insertSelective" parameterType="com.ace.smart.entity.TsMenuinfo" >
+    <insert id="insertSelective" parameterType="com.ace.smart.common.entity.TsMenuinfo" >
         insert into ts_menuinfo
         <trim prefix="(" suffix=")" suffixOverrides="," >
             <if test="menuId != null" >
@@ -303,7 +303,7 @@
         </trim>
     </insert>
 
-    <update id="updateByPrimaryKeySelective" parameterType="com.ace.smart.entity.TsMenuinfo" >
+    <update id="updateByPrimaryKeySelective" parameterType="com.ace.smart.common.entity.TsMenuinfo" >
         update ts_menuinfo
         <set >
             <if test="subsysCode != null" >
@@ -388,7 +388,7 @@
         where menu_id = #{menuId,jdbcType=VARCHAR}
     </update>
 
-    <update id="updateByPrimaryKey" parameterType="com.ace.smart.entity.TsMenuinfo" >
+    <update id="updateByPrimaryKey" parameterType="com.ace.smart.common.entity.TsMenuinfo" >
         update ts_menuinfo
         set subsys_code = #{subsysCode,jdbcType=VARCHAR},
             menu_name = #{menuName,jdbcType=VARCHAR},

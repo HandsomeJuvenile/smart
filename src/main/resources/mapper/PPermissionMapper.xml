@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.ace.smart.mapper.PPermissionMapper" >
+<mapper namespace="com.ace.smart.common.mapper.PPermissionMapper" >
 
-    <resultMap id="BaseResultMap" type="com.ace.smart.entity.PPermission" >
+    <resultMap id="BaseResultMap" type="com.ace.smart.common.entity.PPermission" >
         <id column="menu_id" property="menuId" jdbcType="BIGINT" />
         <result column="url" property="url" jdbcType="VARCHAR" />
         <result column="name" property="name" jdbcType="VARCHAR" />
@@ -11,7 +11,7 @@
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     </resultMap>
-    <resultMap id="BaseResultVoMap" type="com.ace.smart.entity.vo.PPermissionVo" >
+    <resultMap id="BaseResultVoMap" type="com.ace.smart.common.entity.vo.PPermissionVo" >
         <id column="menu_id" property="menuId" jdbcType="BIGINT" />
         <result column="url" property="url" jdbcType="VARCHAR" />
         <result column="name" property="name" jdbcType="VARCHAR" />
@@ -50,14 +50,14 @@
         from p_permission pp
         <where>
             <if test="parentId!=null">pp.parent_id = #{parentId}</if>
-            <if test="menuId!=null">pp.menu_id = #{menuId}</if>
+            <if test="menuId!=null"> pp.menu_id = #{menuId}</if>
             <if test="name!=null"> pp.name LIKE #{name}</if>
         </where>
         order by pp.update_time desc
     </select>
 
     <select id="selectByParent" resultMap="BaseResultMap" parameterType="java.lang.Long">
-        SELECT  menu_id,name from p_permission where parent_id = #{value}
+        SELECT  menu_id,name from p_permission where parent_id = #{value} and status = '1'
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
@@ -65,7 +65,7 @@
         where menu_id = #{menuId,jdbcType=BIGINT}
     </delete>
 
-    <insert id="insert" parameterType="com.ace.smart.entity.PPermission" >
+    <insert id="insert" parameterType="com.ace.smart.common.entity.PPermission" >
         insert into p_permission (menu_id, url, name, 
             parent_id,status,level, create_time, update_time
             )
@@ -74,7 +74,7 @@
             )
     </insert>
 
-    <insert id="insertSelective" parameterType="com.ace.smart.entity.PPermission" >
+    <insert id="insertSelective" parameterType="com.ace.smart.common.entity.PPermission" >
         insert into p_permission
         <trim prefix="(" suffix=")" suffixOverrides="," >
             <if test="menuId != null" >
@@ -124,7 +124,7 @@
         </trim>
     </insert>
 
-    <update id="updateByPrimaryKeySelective" parameterType="com.ace.smart.entity.PPermission" >
+    <update id="updateByPrimaryKeySelective" parameterType="com.ace.smart.common.entity.PPermission" >
         update p_permission
         <set >
             <if test="url != null" >
@@ -146,7 +146,7 @@
         where menu_id = #{menuId,jdbcType=BIGINT}
     </update>
 
-    <update id="updateByPrimaryKey" parameterType="com.ace.smart.entity.PPermission" >
+    <update id="updateByPrimaryKey" parameterType="com.ace.smart.common.entity.PPermission" >
         update p_permission
         set url = #{url,jdbcType=VARCHAR},
             name = #{name,jdbcType=VARCHAR},

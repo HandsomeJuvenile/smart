@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.ace.smart.mapper.TsModuleinfoMapper" >
+<mapper namespace="com.ace.smart.common.mapper.TsModuleinfoMapper" >
 
-    <resultMap id="BaseResultMap" type="com.ace.smart.entity.TsModuleinfo" >
+    <resultMap id="BaseResultMap" type="com.ace.smart.common.entity.TsModuleinfo" >
         <id column="module_id" property="moduleId" jdbcType="VARCHAR" />
         <result column="module_name" property="moduleName" jdbcType="VARCHAR" />
         <result column="module_file" property="moduleFile" jdbcType="VARCHAR" />
@@ -41,7 +41,7 @@
         where module_id = #{moduleId,jdbcType=VARCHAR}
     </delete>
 
-    <insert id="insert" parameterType="com.ace.smart.entity.TsModuleinfo" >
+    <insert id="insert" parameterType="com.ace.smart.common.entity.TsModuleinfo" >
         insert into ts_moduleinfo (module_id, module_name, module_file, 
             module_dir, module_type, rsrv_str1, 
             rsrv_str2, rsrv_str3, rsrv_str4, 
@@ -58,7 +58,7 @@
             )
     </insert>
 
-    <insert id="insertSelective" parameterType="com.ace.smart.entity.TsModuleinfo" >
+    <insert id="insertSelective" parameterType="com.ace.smart.common.entity.TsModuleinfo" >
         insert into ts_moduleinfo
         <trim prefix="(" suffix=")" suffixOverrides="," >
             <if test="moduleId != null" >
@@ -174,7 +174,7 @@
         </trim>
     </insert>
 
-    <update id="updateByPrimaryKeySelective" parameterType="com.ace.smart.entity.TsModuleinfo" >
+    <update id="updateByPrimaryKeySelective" parameterType="com.ace.smart.common.entity.TsModuleinfo" >
         update ts_moduleinfo
         <set >
             <if test="moduleName != null" >
@@ -232,7 +232,7 @@
         where module_id = #{moduleId,jdbcType=VARCHAR}
     </update>
 
-    <update id="updateByPrimaryKey" parameterType="com.ace.smart.entity.TsModuleinfo" >
+    <update id="updateByPrimaryKey" parameterType="com.ace.smart.common.entity.TsModuleinfo" >
         update ts_moduleinfo
         set module_name = #{moduleName,jdbcType=VARCHAR},
             module_file = #{moduleFile,jdbcType=VARCHAR},

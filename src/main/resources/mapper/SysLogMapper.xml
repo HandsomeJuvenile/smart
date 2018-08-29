@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.ace.smart.mapper.SysLogMapper" >
+<mapper namespace="com.ace.smart.common.mapper.SysLogMapper" >
 
-    <resultMap id="BaseResultMap" type="com.ace.smart.entity.SysLog" >
+    <resultMap id="BaseResultMap" type="com.ace.smart.common.entity.SysLog" >
         <id column="id" property="id" jdbcType="INTEGER" />
         <result column="user_id" property="userId" jdbcType="BIGINT" />
         <result column="username" property="username" jdbcType="VARCHAR" />
@@ -40,7 +40,7 @@
         where id = #{id,jdbcType=INTEGER}
     </delete>
 
-    <insert id="insert" parameterType="com.ace.smart.entity.SysLog" >
+    <insert id="insert" parameterType="com.ace.smart.common.entity.SysLog" >
         insert into sys_log (user_id, username,
             operation, time, method, 
             params, ip, gmt_create
