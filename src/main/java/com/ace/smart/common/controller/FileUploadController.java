@@ -5,6 +5,7 @@ import com.ace.smart.common.entity.PuImg;
 import com.ace.smart.common.entity.UploadProperties;
 import com.ace.smart.common.service.LoginService;
 import com.ace.smart.common.service.PuImgService;
+import com.ace.smart.common.util.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.Map;
-
 
 @Component
 @Controller
@@ -58,26 +58,20 @@ public class FileUploadController {
 
     /**
      * @desc basePath: 基础目录
+     *       头像修改 不需要
      * @author zzh
      * @date 2018/6/1 16:39
      * @param   
      * @return 
      */
-
     // TODO: 2018/6/4  如果上传的文件 是多文件的话  那么map返回的src属性 每一次都会被覆盖 当多文件上传时 在修改
     public Map<String ,String> upload(String basePath, MultipartFile[] files, Map<String ,String> map) {
         // 判断文件是否存在
         File targetFile = new File(basePath);
-        if (!targetFile.exists()) {
-            targetFile.mkdir();
-        }
+        if (!targetFile.exists()) targetFile.mkdir();
         for (MultipartFile file:files) {
-            // 得到文件名
             String fileName = file.getOriginalFilename();
-            // 文件后缀名
-            String type = splitAfterName(fileName);
-            // 重新生成一个唯一的文件名
-            String newFileName = System.currentTimeMillis()+""+"."+type;
+            String newFileName = FileUtil.newFileName(splitAfterName(fileName));
             try {
                 Files.copy(file.getInputStream(),Paths.get(basePath,newFileName), StandardCopyOption.REPLACE_EXISTING);
                 map.put("code","0");
@@ -118,25 +112,23 @@ public class FileUploadController {
 
     /**
      * 头像上传或者更新 数据库保存
+     *  其实一般都是有一个默认头像 我也不用添加的  但是我现在没有这个图片 就这样吧
      * @param newFileName
      * @param map
      * @return
      */
     private Map<String,String > saveData(String newFileName,Map<String,String> map){
         String user_id = loginService.getLoginUser().getId()+"";
-        // 查询该用户是否已经上传过头像
-        PuImg puImg = new PuImg();
-        puImg.setJpgurl("/userImg/"+newFileName);
-        puImg.setType("0"); // 0 代表用户头像
-        puImg.setUserId(user_id);
+        // 查询该用户是否已经上传过头像 0 代表用户头像
+        PuImg puImg = new PuImg("0","/userImg/"+newFileName,user_id);
         if (puImgService.selectByUserIdAndType(puImg).size() > 0) {
             // 更新数据库
             int affect = puImgService.updateByPrimaryKey(puImg);
-            map = isSuccess(map,affect,"修改");
+            map = isSuccess(map,affect,"uopload");
         }else {
             // 加入到数据库中
             int affect = puImgService.insertSelective(puImg);
-            map = isSuccess(map,affect,"上传");
+            map = isSuccess(map,affect,"update");
         }
         return map;
     }
